@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using NumAndDrive.Models
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" asp-controller="account" asp-action="logout">Se déconnecter</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page">@UserManager.GetUserName(User)</a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" asp-controller="account" asp-action="login">Se connecter</a>
+        </li>
+    }
+</ul>

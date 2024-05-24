@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="fr-fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Num&Drive</title>
+    <link rel="icon" href="../favicon.png"/>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="fixed-top">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary custom-bottom-shadow mb-5 px-5">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                    <img src="../img/logo.png" alt="Logo" width="50" height="50" class="d-inline-block align-text-top">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link active" aria-current="page" asp-controller="Home" asp-action="Index">Accueil</a>
+                        <a class="nav-link active" aria-current="page" asp-controller="admin" asp-action="Index">Panel administrateur</a>
+                        <partial name="_LoginPartial">
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container margin-middle">
+        @RenderBody()
+    </div>
+
+    <footer class="fixed-bottom">
+        <div class="container-fluid px-5 d-flex flex-wrap justify-content-between align-items-center py-3 custom-top-shadow bg-body">
+            <p class="col-md-4 mb-0 text-body-secondary">2024 JeCyMa - Version 1.0</p>
+
+            <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                <img src="../img/logo-text.png" alt="Logo" height="20">
+            </a>
+
+            <ul class="nav col-md-4 justify-content-end">
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Accueil</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQ</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">À propos</a></li>
+            </ul>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

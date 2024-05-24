@@ -1,0 +1,31 @@
+﻿@using NumAndDrive.Models;
+
+@model List<User>
+<a asp-controller="admin" asp-action="index" class="btn custom-color-orange text-white custom-bottom-shadow">Retour</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Identifiant</th>
+            <th>Prénom</th>
+            <th>Nom</th>
+            <th>Adresse mail</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Id</td>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>@user.Email</td>
+                <td><a asp-controller="admin" asp-action="details" asp-route-id="@user.Id"><img src="../img/icon-view.png" alt="Voir" height="30" /></a></td>
+                <td><a asp-controller="admin" asp-action="edit" asp-route-id="@user.Id"><img src="../img/icon-edit.png" alt="Modifier" height="30" /></a></td>
+                <td><a asp-controller="admin" asp-action="archive" asp-route-id="@user.Id"><img src="../img/icon-delete.png" alt="Archiver" height="30" /></a></td>
+            </tr>
+        }
+    </tbody>
+</table>

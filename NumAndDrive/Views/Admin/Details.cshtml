@@ -1,0 +1,24 @@
+﻿@using NumAndDrive.Models;
+
+@model User
+
+<a asp-controller="admin" asp-action="getUsers" class="btn custom-color-orange text-white custom-bottom-shadow">Retour</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Identifiant</th>
+            <th>Prénom</th>
+            <th>Nom</th>
+            <th>Adresse mail</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.Id</td>
+            <td>@Model.FirstName</td>
+            <td>@Model.LastName</td>
+            <td>@Model.Email</td>
+        </tr>
+    </tbody>
+</table>

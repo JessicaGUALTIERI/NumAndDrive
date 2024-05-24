@@ -1,0 +1,34 @@
+﻿@using NumAndDrive.Models;
+@model Admin
+
+<h2 class="m-5">Importer les utilisateurs</h2>
+
+<form method="post" asp-controller="admin" asp-action="UploadUsersFromCSVFile" enctype="multipart/form-data">
+    <div class="text-custom-color-orange" asp-validation-summary="All"></div>
+    <div class="mb-3 row">
+        <div class="col-2">
+            <label asp-for="File" class="col-form-label">Fichier des données utilisateurs</label>
+        </div>
+        <div class="col-3">
+            <input type="file" asp-for="File" class="form-control" accept=".csv" />
+        </div>
+        <div class="col">
+            <span class="text-custom-color-orange" asp-validation-for="File"></span>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <div class="col">
+            <input type="submit" class="btn custom-color-orange text-white custom-bottom-shadow" value="Ajouter ces utilisateurs" />
+        </div>
+    </div>
+</form>
+
+<hr />
+
+<h2 class="m-5">Liste des utilisateurs</h2>
+<a class="btn custom-color-orange text-white custom-bottom-shadow" asp-controller="Admin" asp-action="getUsers">Afficher la liste des utilisateurs</a>
+
+<hr />
+
+<h2 class="m-5">Ajouter un utilisateur</h2>
+<a class="btn custom-color-orange text-white custom-bottom-shadow" asp-controller="Admin" asp-action="createSingleUser">Créer</a>

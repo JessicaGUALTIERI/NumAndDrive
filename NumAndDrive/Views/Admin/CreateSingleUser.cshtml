@@ -1,0 +1,97 @@
+﻿@using NumAndDrive.ViewModels
+@model CreateUserViewModel
+
+<form method="post" asp-controller="admin" asp-action="createSingleUser">
+    <div class="text-danger" asp-validation-summary="All"></div>
+    <div class="mb-3 row">
+        <div class="col-2">
+            <label asp-for="User.FirstName" class="col-form-label"></label>
+        </div>
+        <div class="col-3">
+            <input type="text" asp-for="User.FirstName" class="form-control" />
+        </div>
+        <div class="col">
+            <span class="text-danger" asp-validation-for="User.FirstName"></span>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <div class="col-2">
+            <label asp-for="User.LastName" class="col-form-label"></label>
+        </div>
+        <div class="col-3">
+            <input type="text" asp-for="User.LastName" class="form-control" />
+        </div>
+        <div class="col">
+            <span class="text-danger" asp-validation-for="User.LastName"></span>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <div class="col-2">
+            <label asp-for="User.Email" class="col-form-label"></label>
+        </div>
+        <div class="col-3">
+            <input type="text" asp-for="User.Email" class="form-control" />
+        </div>
+        <div class="col">
+            <span class="text-danger" asp-validation-for="User.Email"></span>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <div class="col-2">
+            <label asp-for="User.PhoneNumber" class="col-form-label"></label>
+        </div>
+        <div class="col-3">
+            <input type="text" asp-for="User.PhoneNumber" class="form-control" />
+        </div>
+        <div class="col">
+            <span class="text-danger" asp-validation-for="User.PhoneNumber"></span>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <div class="col-2">
+            <label asp-for="User.StatusId" class="col-form-label">Statut de l'utilisateur</label>
+        </div>
+        <div class="col-3">
+            <select asp-for="User.StatusId" class="form-control">
+                <option>- Sélectionner -</option>
+                @if (Model.Statuses != null && Model.Statuses.Count() > 0)
+                {
+                    foreach (var status in Model.Statuses)
+                    {
+                        <option value="@status.StatusId">@status.Type</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col">
+            <span class="text-danger" asp-validation-for="User.StatusId"></span>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <div class="col-2">
+            <label asp-for="User.DepartmentId" class="col-form-label">Service ou classe</label>
+        </div>
+        <div class="col-3">
+            <select asp-for="User.DepartmentId" class="form-control">
+                <option>- Sélectionner -</option>
+                @if (Model.Departments != null && Model.Departments.Count() > 0)
+                {
+                    foreach (var department in Model.Departments)
+                    {
+                        <option value="@department.DepartmentId">@department.Name</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col">
+            <span class="text-danger" asp-validation-for="User.DepartmentId"></span>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <div class="col-2">
+            <input type="submit" class="btn btn-primary" value="Créer" />
+        </div>
+        <div class="col-3">
+        </div>
+    </div>
+</form>
