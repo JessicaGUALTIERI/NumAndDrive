@@ -11,6 +11,7 @@ builder.Services.AddControllersWithViews(options => options.SuppressImplicitRequ
 
 builder.Services.AddScoped<NumAndDriveDbContext>();
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
+builder.Services.AddScoped<IJourneyRepository, JourneyRepository>();
 
 var connectionString = builder.Configuration.GetConnectionString("Project_NumAndDriveDbContextConnection") ?? throw new InvalidOperationException("Connection string 'Project_NumAndDriveDbContextConnection' not found.");
 

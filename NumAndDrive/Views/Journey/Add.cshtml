@@ -1,0 +1,52 @@
+﻿@using NumAndDrive.ViewModels
+@model JourneyCompanyViewModel
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <h2>Ajouter un nouveau trajet</h2>
+
+    <form method="post" asp-controller="journey" asp-action="Add">
+        <div class="text-danger" asp-validation-summary="All"></div>
+        <div class="row mb-3">
+            <div class="col-3">
+                <h4>D'où partons nous ?</h4>
+                <input type="text" asp-for="AddressToTrim" id="search" placeholder="Entrez une adresse" class="form-control" />
+                <ul id="suggestions" class="list-group"></ul>
+            </div>
+            <div class="col-3">
+                <input type="submit" class="btn btn-primary" value="Créer" />
+            </div>
+        </div>
+        @*<div class="row">
+            <div class="col-3">
+                <input type="date" id="date" class="form-control" />
+            </div>
+            <div class="col-3">
+                <input type="time" id="time" class="form-control" />
+            </div>
+        </div>*@
+        </div>
+    </form>
+    
+
+<script>$(document).ready(function () {
+        $('#search').on('input', function () {
+            var query = $(this).val();
+            if (query.length > 2) {
+                fetch(`https://api-adresse.data.gouv.fr/search/?q=${query}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        $('#suggestions').empty();
+                        data.features.forEach(feature => {
+                            $('#suggestions').append(`<li class="list-group-item">${feature.properties.label}</li>`);
+                        });
+                    });
+            } else {
+                $('#suggestions').empty();
+            }
+        });
+
+        $(document).on('click', '.list-group-item', function () {
+            $('#search').val($(this).text());
+            $('#suggestions').empty();
+        });
+    });</script>
