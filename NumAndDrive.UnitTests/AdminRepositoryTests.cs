@@ -4,51 +4,97 @@ using NumAndDrive.Models.Repositories;
 namespace NumAndDrive.UnitTests;
 
 [TestClass]
-public class UnitTest1
+public class AdminRepositoryTests
 {
-    AdminRepository fileDataTest = new AdminRepository();
+    AdminRepository fileDataTest;
+
+    [TestInitialize]
+    public void Init()
+    {
+        fileDataTest = new AdminRepository();
+    }
 
     [TestMethod]
     public void PasswordIsValid()
     {
+        // Arrange
         string password = fileDataTest.PasswordGenerator();
 
-        Assert.IsTrue(Regex.IsMatch(password, "[A-Z]") && Regex.IsMatch(password, "[a-z]") && Regex.IsMatch(password, @"[\d]") && Regex.IsMatch(password, @"[!@#$%^&*()_+]") && password.Length >= 8 && password.Length <= 12);
+        // Act
+        bool result = Regex.IsMatch(password, "[A-Z]")
+            && Regex.IsMatch(password, "[a-z]")
+            && Regex.IsMatch(password, @"[\d]")
+            && Regex.IsMatch(password, @"[!@#$%^&*()_+]")
+            && password.Length >= 8
+            && password.Length <= 12;
+
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
     public void PasswordContainsAtLeastOneUppercase()
     {
+        // Arrange
         string password = fileDataTest.PasswordGenerator();
-        Assert.IsTrue(Regex.IsMatch(password, "[A-Z]"));
+
+        // Act
+        bool result = Regex.IsMatch(password, "[A-Z]");
+
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
     public void PasswordContainsAtLeastOneLowercase()
     {
+        // Arrange
         string password = fileDataTest.PasswordGenerator();
-        Assert.IsTrue(Regex.IsMatch(password, "[a-z]"));
+
+        // Act
+        bool result = Regex.IsMatch(password, "[a-z]");
+
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
     public void PasswordContainsAtLeastOneDigit()
     {
+        // Arrange
         string password = fileDataTest.PasswordGenerator();
-        Assert.IsTrue(Regex.IsMatch(password, @"[\d]"));
+
+        // Act
+        bool result = Regex.IsMatch(password, @"[\d]");
+
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
     public void PasswordContainsAtLeastOneNonAlphanumericCharacter()
     {
+        // Arrange
         string password = fileDataTest.PasswordGenerator();
-        Assert.IsTrue(Regex.IsMatch(password, @"[!@#$%^&*()_+]"));
+
+        // Act
+        bool result = Regex.IsMatch(password, @"[!@#$%^&*()_+]");
+
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
     public void PasswordHasTheCorrectLength()
     {
+        // Arrange
         string password = fileDataTest.PasswordGenerator();
-        Assert.IsTrue(password.Length >= 8 && password.Length <= 12);
+
+        // Act
+        bool result = password.Length >= 8 && password.Length <= 12;
+
+        // Assert
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -58,7 +104,10 @@ public class UnitTest1
     [DataRow("Jeanne d'Arc")]
     public void NameIsCorrect_UsingCorrectInput_ReturnTrue(string name)
     {
+        // Act
         bool result = fileDataTest.IsNameValid(name);
+
+        // Assert
         Assert.IsTrue(result);
     }
 
@@ -69,7 +118,10 @@ public class UnitTest1
     [DataRow("               ")]
     public void NameIsCorrect_UsingWrongInput_ReturnFalse(string name)
     {
+        // Act
         bool result = fileDataTest.IsNameValid(name);
+
+        // Assert
         Assert.IsFalse(result);
     }
 
@@ -79,7 +131,10 @@ public class UnitTest1
     [DataRow("j.e.s.s_123@live.fr   ")]
     public void EmailIsCorrect_UsingCorrectInput_ReturnTrue(string email)
     {
+        // Act
         bool result = fileDataTest.IsEmailValid(email);
+
+        // Assert
         Assert.IsTrue(result);
     }
 
@@ -93,7 +148,10 @@ public class UnitTest1
     [DataRow("               ")]
     public void EmailIsCorrect_UsingWrongInput_ReturnFalse(string email)
     {
+        // Act
         bool result = fileDataTest.IsEmailValid(email);
+
+        // Assert
         Assert.IsFalse(result);
     }
 
@@ -104,7 +162,10 @@ public class UnitTest1
     [DataRow("0000000000")]
     public void PhoneNumberIsCorrect_UsingCorrectInput_ReturnTrue(string phoneNumber)
     {
+        // Act
         bool result = fileDataTest.IsPhoneNumberValid(phoneNumber);
+
+        // Assert
         Assert.IsTrue(result);
     }
 
@@ -115,7 +176,10 @@ public class UnitTest1
     [DataRow("               ")]
     public void PhoneNumberIsCorrect_UsingWrongInput_ReturnFalse(string phoneNumber)
     {
+        // Act
         bool result = fileDataTest.IsPhoneNumberValid(phoneNumber);
+
+        // Assert
         Assert.IsFalse(result);
     }
 }
