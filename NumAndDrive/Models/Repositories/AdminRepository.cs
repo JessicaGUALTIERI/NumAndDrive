@@ -9,13 +9,17 @@ namespace NumAndDrive.Models.Repositories
 {
 	public class AdminRepository : IAdminRepository
 	{
-        private readonly NumAndDriveDbContext _db;
-        private readonly UserManager<User> _userManager;
+        private readonly NumAndDriveDbContext? _db;
+        private readonly UserManager<User>? _userManager;
 
         public AdminRepository(NumAndDriveDbContext db, UserManager<User> userManager)
         {
             _db = db;
             _userManager = userManager;
+        }
+        public AdminRepository()
+        {
+
         }
 
         /// <summary>
@@ -235,7 +239,7 @@ namespace NumAndDrive.Models.Repositories
         public bool IsNameValid(string name)
         {
             bool validator = true;
-            name.Trim();
+            name = name.Trim();
 
             if (name.Length < 1)
                 validator = false;
@@ -256,7 +260,7 @@ namespace NumAndDrive.Models.Repositories
         /// <returns>true if the email address is valid; otherwise, false</returns>
         public bool IsEmailValid(string mail)
         {
-            mail.Trim();
+            mail = mail.Trim();
 
             if (string.IsNullOrEmpty(mail) || string.IsNullOrWhiteSpace(mail))
                 return false;
@@ -275,7 +279,8 @@ namespace NumAndDrive.Models.Repositories
         /// <returns>true if the phone number is valid; otherwise, false</returns>
         public bool IsPhoneNumberValid(string phoneNumber)
         {
-            phoneNumber.Trim();
+            phoneNumber = phoneNumber.Trim();
+            phoneNumber = phoneNumber.Replace(" ", "");
 
             if (string.IsNullOrEmpty(phoneNumber) || string.IsNullOrWhiteSpace(phoneNumber))
                 return false;
