@@ -100,6 +100,7 @@ public class UnitTest1
     [TestMethod]
     [DataRow("      0606060606")]
     [DataRow("06 06 06 06 06")]
+    [DataRow("06         06          06 06 06")]
     [DataRow("0000000000")]
     public void PhoneNumberIsCorrect_UsingCorrectInput_ReturnTrue(string phoneNumber)
     {
