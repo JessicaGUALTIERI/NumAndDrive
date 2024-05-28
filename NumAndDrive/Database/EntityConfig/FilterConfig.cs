@@ -10,7 +10,7 @@ namespace NumAndDrive.Database.EntityConfig
         public void Configure(EntityTypeBuilder<Filter> modelBuilder)
         {
             // Name
-            modelBuilder.ToTable("Filter");
+            modelBuilder.ToTable("filter");
 
             // Primary Key
             modelBuilder.HasKey(x => x.FilterId);

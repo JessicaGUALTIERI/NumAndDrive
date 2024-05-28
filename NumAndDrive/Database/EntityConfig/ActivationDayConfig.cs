@@ -10,7 +10,7 @@ namespace NumAndDrive.Database.EntityConfig
 		public void Configure(EntityTypeBuilder<ActivationDay> modelBuilder)
 		{
             // Name
-            modelBuilder.ToTable("ActivationDay");
+            modelBuilder.ToTable("activationDay");
 
             // Primary Key
             modelBuilder.HasKey(x => x.ActivationDayId);

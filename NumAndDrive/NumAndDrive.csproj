@@ -29,6 +29,7 @@
     <None Remove="Models\Repositories\" />
     <None Remove="ViewModels\" />
     <None Remove="Views\Account\" />
+    <None Remove="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Database\" />
@@ -37,5 +38,6 @@
     <Folder Include="Models\Repositories\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Views\Account\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
 </Project>

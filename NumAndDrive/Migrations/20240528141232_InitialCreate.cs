@@ -249,6 +249,7 @@ namespace NumAndDrive.Migrations
                     ProfilePicturePath = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ArchiveDate = table.Column<DateOnly>(type: "date", nullable: true),
+                    IsFirstLogin = table.Column<sbyte>(type: "tinyint", nullable: false, defaultValue: (sbyte)0),
                     DepartmentId = table.Column<int>(type: "int", nullable: true),
                     UserTypeId = table.Column<int>(type: "int", nullable: true),
                     StatusId = table.Column<int>(type: "int", nullable: true),

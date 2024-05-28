@@ -11,7 +11,7 @@ namespace NumAndDrive.Database.EntityConfig
         public void Configure(EntityTypeBuilder<Reward> modelBuilder)
         {
             // Name
-            modelBuilder.ToTable("Reward");
+            modelBuilder.ToTable("reward");
 
             // Primary Key
             modelBuilder.HasKey(x => x.RewardId);

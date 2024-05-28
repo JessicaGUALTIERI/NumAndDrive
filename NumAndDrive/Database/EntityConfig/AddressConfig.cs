@@ -11,7 +11,7 @@ namespace NumAndDrive.Database.EntityConfig
         public void Configure(EntityTypeBuilder<Address> modelBuilder)
         {
             // Name
-            modelBuilder.ToTable("Address");
+            modelBuilder.ToTable("address");
 
             // Primary Key
             modelBuilder.HasKey(x => x.AddressId);

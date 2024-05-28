@@ -12,7 +12,7 @@ using NumAndDrive.Database;
 namespace NumAndDrive.Migrations
 {
     [DbContext(typeof(NumAndDriveDbContext))]
-    [Migration("20240523142757_InitialCreate")]
+    [Migration("20240528141232_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -864,6 +864,11 @@ namespace NumAndDrive.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("varchar(100)");
+
+                    b.Property<sbyte>("IsFirstLogin")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint")
+                        .HasDefaultValue((sbyte)0);
 
                     b.Property<string>("LastName")
                         .IsRequired()

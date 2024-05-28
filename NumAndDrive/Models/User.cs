@@ -9,6 +9,7 @@ namespace NumAndDrive.Models
 		public string FirstName { get; set; }
 		public string ProfilePicturePath { get; set; }
 		public DateOnly? ArchiveDate { get; set; }
+		public int IsFirstLogin { get; set; }
 
 		// many-to-one
 		public virtual ICollection<Message> MessagesSent { get; } = new List<Message>();

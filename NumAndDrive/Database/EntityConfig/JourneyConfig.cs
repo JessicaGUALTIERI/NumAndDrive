@@ -12,7 +12,7 @@ namespace NumAndDrive.Database.EntityConfig
         public void Configure(EntityTypeBuilder<Journey> modelBuilder)
         {
             // Name
-            modelBuilder.ToTable("Journey");
+            modelBuilder.ToTable("journey");
 
             // Primary Key
             modelBuilder.HasKey(x => x.JourneyId);

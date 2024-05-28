@@ -13,17 +13,36 @@
                 <ul id="suggestions" class="list-group"></ul>
             </div>
             <div class="col-3">
-                <input type="submit" class="btn btn-primary" value="Créer" />
+                <h4>Où allons nous ?</h4>
+                <select asp-for="Journey.AddressIncomingId" class="form-control">
+                    <option>- Séléctionner -</option>
+                    @if (Model.Company != null && Model.Company.Count() > 0)
+                        {
+                            foreach (var company in Model.Company)
+                            {
+                                <option value="@company.CompanyId">@company.Name</option>
+                            }
+                        }
+                </select>
             </div>
         </div>
-        @*<div class="row">
+        <div class="row mb-3">
             <div class="col-3">
-                <input type="date" id="date" class="form-control" />
+                <input asp-for="Journey.DepartureDate" type="date" id="date" class="form-control" />
             </div>
             <div class="col-3">
-                <input type="time" id="time" class="form-control" />
+                <input asp-for="Journey.DepartureHour" type="time" id="time" class="form-control" />
             </div>
-        </div>*@
+        </div>
+        <div class="row mb-3">
+            <div class="col-3">
+                <input type="number" asp-for="Journey.AvailableSpots" class="form-control" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3 mt-3">
+                <input type="submit" class="btn btn-primary" value="Créer" />
+            </div>
         </div>
     </form>
     

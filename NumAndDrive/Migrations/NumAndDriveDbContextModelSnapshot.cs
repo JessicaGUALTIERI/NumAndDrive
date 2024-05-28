@@ -862,6 +862,11 @@ namespace NumAndDrive.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(100)");
 
+                    b.Property<sbyte>("IsFirstLogin")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint")
+                        .HasDefaultValue((sbyte)0);
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(100)

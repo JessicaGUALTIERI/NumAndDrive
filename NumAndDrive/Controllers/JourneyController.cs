@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NumAndDrive.Database;
 using NumAndDrive.Models;
 using NumAndDrive.Models.Repositories;
@@ -19,43 +20,35 @@ namespace NumAndDrive.Controllers
         private readonly UserManager<User> UserManager;
         private readonly IJourneyRepository JourneyRepository;
 
-        public JourneyController(NumAndDriveDbContext db, IJourneyRepository journeyRepository)
+        public JourneyController(NumAndDriveDbContext db, IJourneyRepository journeyRepository, UserManager<User> userManager)
         {
             Db = db;
             JourneyRepository = journeyRepository;
+            UserManager = userManager;
         }
 
         // GET: /<controller>/
         public IActionResult Index()
         {
-            var journey = Db.Journeys.ToList().Take(5);
-            return View(journey);
+            return View();
         }
 
         [HttpGet]
         public IActionResult Add()
         {
-            //var company = Db.Companies.ToList();
-            //return View(company);
-            return View();
+            JourneyCompanyViewModel journeyCompanyViewModel = new JourneyCompanyViewModel
+            {
+                Company = Db.Companies,
+            };
+
+            return View(journeyCompanyViewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(JourneyCompanyViewModel journeyCompanyViewModel)
+        public async Task<IActionResult> Add(JourneyCompanyViewModel journeyCompanyViewModel, User user)
         {
-            //var lastJourney = Db.Journeys.LastOrDefault();
-            //int lastJourneyId = lastJourney.JourneyId;
-            //if (lastJourneyId == null)
-            //{
-            //    lastJourneyId = 1;
-            //}
-
-            //var lastAddress = Db.Addresses.OrderBy(x => x.AddressId).LastOrDefault();
-            //int lastAddressId = lastAddress.AddressId;
-
             string completeAddress = journeyCompanyViewModel.AddressToTrim;
             (string postalAddress,string postalCode,string city) = JourneyRepository.AddressTrimer(completeAddress);
-
             Address address = new Address
             {
                 PostalAddress = postalAddress,
@@ -63,28 +56,44 @@ namespace NumAndDrive.Controllers
                 City = city,
             };
 
-            Db.Addresses.Add(address);
+            var result = Db.Addresses.AddAsync(address);
             Db.SaveChanges();
 
+            if (result.IsCompletedSuccessfully)
+            {
 
-            //Journey journey = new Journey
-            //{
-            //    JourneyId = lastJourneyId,
-            //    DepartureDate = journeyCompanyViewModel.Journey.DepartureDate,
-            //    DepartureHour = journeyCompanyViewModel.Journey.DepartureHour,
-            //    AvailableSpots = journeyCompanyViewModel.Journey.AvailableSpots,
-            //    UserId = userManager.GetUserId(user),
-            //    AddressDepartingId = (int)journeyCompanyViewModel.Address.CompanyId,
-            //    AddressIncomingId = journeyCompanyViewModel.Journey.AddressIncomingId,
-            //    CreationDate = DateOnly.FromDateTime(DateTime.UtcNow),
-            //};
+                var lastAddress = Db.Addresses.OrderByDescending(x => x.AddressId).FirstOrDefault();
+                int lastAddressId = lastAddress.AddressId;
 
+                Journey journey = new Journey
+                {
 
+                    DepartureDate = journeyCompanyViewModel.Journey.DepartureDate,
+                    DepartureHour = journeyCompanyViewModel.Journey.DepartureHour,
+                    AvailableSpots = journeyCompanyViewModel.Journey.AvailableSpots,
+                    UserId = UserManager.GetUserId(User),
+                    AddressDepartingId = lastAddressId,
+                    AddressIncomingId = journeyCompanyViewModel.Journey.AddressIncomingId,
+                    CreationDate = DateOnly.FromDateTime(DateTime.UtcNow),
+                };
 
-            //Db.Journeys.Add(journey);
-            //Db.SaveChanges();
+                Db.Journeys.Add(journey);
+                Db.SaveChanges();
+            }
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> GetJourneys()
+        {
+            var journeys = await Db.Journeys.
+                Include(j => j.User)
+                .Include(j => j.AddressDeparting)
+                .Include(j => j.AddressIncoming)
+                .ThenInclude(j => j.Company)
+                .ToListAsync();
+                
+            return View(journeys);
         }
     }
 }

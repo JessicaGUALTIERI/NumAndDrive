@@ -11,7 +11,7 @@ namespace NumAndDrive.Database.EntityConfig
         public void Configure(EntityTypeBuilder<Review> modelBuilder)
         {
             // Name
-            modelBuilder.ToTable("Review");
+            modelBuilder.ToTable("review");
 
             // Primary Key
             modelBuilder.HasKey(x => x.ReviewId);

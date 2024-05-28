@@ -74,6 +74,12 @@ namespace NumAndDrive.Database.EntityConfig
                 .IsRequired();
 
             modelBuilder
+                .Property(x => x.IsFirstLogin)
+                .HasColumnType("tinyint")
+                .HasMaxLength(1)
+                .HasDefaultValue(0);
+
+            modelBuilder
                 .Property(x => x.FirstName)
                 .HasColumnType("varchar(100)")
                 .IsRequired();
@@ -83,6 +89,8 @@ namespace NumAndDrive.Database.EntityConfig
                 .HasColumnType("varchar")
                 .HasMaxLength(255)
                 .IsRequired();
+
+            
 
             // Datas
         }
