@@ -45,28 +45,37 @@ namespace NumAndDrive.Controllers
             return View(user);
         }
 
-        [HttpGet]
         public IActionResult Edit(string id)
         {
             User user = Db.Users.Find(id);
-            return View(user);
+            EditUserViewModel editUserViewModel = new EditUserViewModel {
+                Id = id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber
+            };
+            return View(editUserViewModel);
         }
 
         [HttpPost]
-        public IActionResult Edit(User user, string id)
+        public IActionResult Edit(EditUserViewModel user, string id)
         {
-            User ToFindUser = Db.Users.Find(id);
-
-            if (ToFindUser != null)
+            if (ModelState.IsValid && user != null && _adminRepository.IsEditUserViewModelValid(user))
             {
-                ToFindUser.LastName = user.LastName;
-                ToFindUser.FirstName = user.FirstName;
-                ToFindUser.Email = user.Email;
+                User ToFindUser = Db.Users.Find(id);
 
-                Db.SaveChanges();
+                if (ToFindUser != null)
+                {
+                    ToFindUser.LastName = user.LastName;
+                    ToFindUser.FirstName = user.FirstName;
+                    ToFindUser.PhoneNumber = user.PhoneNumber;
+                    Db.SaveChanges();
+                }
+
+                return RedirectToAction(nameof(GetUsers));
             }
-
-            return RedirectToAction(nameof(GetUsers));
+            return View(user);
+                
         }
 
         public IActionResult Archive(string id)

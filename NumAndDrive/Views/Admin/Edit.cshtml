@@ -1,31 +1,52 @@
-﻿@using NumAndDrive.Models;
-@model User
+﻿@using NumAndDrive.ViewModels;
+@model EditUserViewModel
 
-<h2>Modifier un utilisateur</h2>
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div class="form-group">
-                <input asp-for="Id" type="hidden" />
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+<a asp-controller="admin" asp-action="getUsers" class="btn custom-color-orange text-white custom-bottom-shadow">Retour</a>
 
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
+<h2 class="m-5">Modifier un utilisateur</h2>
 
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-
-                <input type="submit" value="Save" class="btn btn-primary mt-4" />
-            </div>
-        </form>
+<form method="post" asp-controller="admin" asp-action="edit">
+    <div class="text-custom-color-orange" asp-validation-summary="ModelOnly"></div>
+    <input asp-for="Id" type="hidden" />
+    <div class="mb-3 row">
+        <div class="col-2">
+            <label asp-for="FirstName" class="col-form-label">Prénom</label>
+        </div>
+        <div class="col-3">
+            <input type="text" asp-for="FirstName" class="form-control" />
+        </div>
+        <div class="col">
+            <span class="text-custom-color-orange" asp-validation-for="FirstName"></span>
+        </div>
     </div>
-</div>
-
-<div class="md-4">
-    <a asp-action="GetUsers">Back to List</a>
-</div>
+    <div class="mb-3 row">
+        <div class="col-2">
+            <label asp-for="LastName" class="col-form-label">Nom</label>
+        </div>
+        <div class="col-3">
+            <input type="text" asp-for="LastName" class="form-control" />
+        </div>
+        <div class="col">
+            <span class="text-custom-color-orange" asp-validation-for="LastName"></span>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <div class="col-2">
+            <label asp-for="PhoneNumber" class="col-form-label">Numéro de téléphone</label>
+        </div>
+        <div class="col-3">
+            <input type="text" asp-for="PhoneNumber" class="form-control" />
+        </div>
+        <div class="col">
+            <span class="text-custom-color-orange" asp-validation-for="PhoneNumber"></span>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <div class="col-2">
+            <input type="submit" class="btn custom-color-orange text-white custom-bottom-shadow" value="Modifier" />
+        </div>
+        <div class="col-3">
+        </div>
+    </div>
+</form>

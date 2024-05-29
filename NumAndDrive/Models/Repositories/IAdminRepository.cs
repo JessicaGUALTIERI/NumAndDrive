@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Identity;
+using NumAndDrive.ViewModels;
 
 namespace NumAndDrive.Models.Repositories
 {
@@ -8,6 +9,7 @@ namespace NumAndDrive.Models.Repositories
         Task UploadUsersFromCSVFile(Admin admin);
         string PasswordGenerator();
         bool IsUserValid(User user);
+        bool IsEditUserViewModelValid(EditUserViewModel editUserViewModel);
     }
 }
 

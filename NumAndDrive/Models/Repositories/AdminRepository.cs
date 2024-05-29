@@ -4,6 +4,7 @@ using System.Xml.Linq;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NumAndDrive.Database;
+using NumAndDrive.ViewModels;
 
 namespace NumAndDrive.Models.Repositories
 {
@@ -370,6 +371,16 @@ namespace NumAndDrive.Models.Repositories
                     && IsNameValid(user.LastName)
                     && IsEmailValid(user.Email)
                     && IsPhoneNumberValid(user.PhoneNumber);
+            return result;
+        }
+
+        public bool IsEditUserViewModelValid(EditUserViewModel editUserViewModel)
+        {
+            bool result = false;
+            if (editUserViewModel != null)
+                result = IsNameValid(editUserViewModel.FirstName)
+                    && IsNameValid(editUserViewModel.LastName)
+                    && IsPhoneNumberValid(editUserViewModel.PhoneNumber);
             return result;
         }
     }

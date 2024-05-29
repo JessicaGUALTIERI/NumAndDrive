@@ -1,97 +1,102 @@
 ﻿@using NumAndDrive.ViewModels
 @model CreateUserViewModel
 
-<form method="post" asp-controller="admin" asp-action="createSingleUser">
-    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
-    <div class="mb-3 row">
-        <div class="col-2">
-            <label asp-for="FirstName" class="col-form-label">Prénom</label>
+    <a asp-controller="admin" asp-action="index" class="btn custom-color-orange text-white custom-bottom-shadow">Retour</a>
+
+    <h2 class="m-5">Ajouter un nouvel utilisateur</h2>
+
+
+    <form method="post" asp-controller="admin" asp-action="createSingleUser">
+        <div class="text-custom-color-orange" asp-validation-summary="ModelOnly"></div>
+        <div class="mb-3 row">
+            <div class="col-2">
+                <label asp-for="FirstName" class="col-form-label">Prénom</label>
+            </div>
+            <div class="col-3">
+                <input type="text" asp-for="FirstName" class="form-control" />
+            </div>
+            <div class="col">
+                <span class="text-custom-color-orange" asp-validation-for="FirstName"></span>
+            </div>
         </div>
-        <div class="col-3">
-            <input type="text" asp-for="FirstName" class="form-control" />
+        <div class="mb-3 row">
+            <div class="col-2">
+                <label asp-for="LastName" class="col-form-label">Nom</label>
+            </div>
+            <div class="col-3">
+                <input type="text" asp-for="LastName" class="form-control" />
+            </div>
+            <div class="col">
+                <span class="text-custom-color-orange" asp-validation-for="LastName"></span>
+            </div>
         </div>
-        <div class="col">
-            <span class="text-danger" asp-validation-for="FirstName"></span>
+        <div class="mb-3 row">
+            <div class="col-2">
+                <label asp-for="Email" class="col-form-label">Adresse mail</label>
+            </div>
+            <div class="col-3">
+                <input type="text" asp-for="Email" class="form-control" />
+            </div>
+            <div class="col">
+                <span class="text-custom-color-orange" asp-validation-for="Email"></span>
+            </div>
         </div>
-    </div>
-    <div class="mb-3 row">
-        <div class="col-2">
-            <label asp-for="LastName" class="col-form-label">Nom</label>
+        <div class="mb-3 row">
+            <div class="col-2">
+                <label asp-for="PhoneNumber" class="col-form-label">Numéro de téléphone</label>
+            </div>
+            <div class="col-3">
+                <input type="text" asp-for="PhoneNumber" class="form-control" />
+            </div>
+            <div class="col">
+                <span class="text-custom-color-orange" asp-validation-for="PhoneNumber"></span>
+            </div>
         </div>
-        <div class="col-3">
-            <input type="text" asp-for="LastName" class="form-control" />
-        </div>
-        <div class="col">
-            <span class="text-danger" asp-validation-for="LastName"></span>
-        </div>
-    </div>
-    <div class="mb-3 row">
-        <div class="col-2">
-            <label asp-for="Email" class="col-form-label">Adresse mail</label>
-        </div>
-        <div class="col-3">
-            <input type="text" asp-for="Email" class="form-control" />
-        </div>
-        <div class="col">
-            <span class="text-danger" asp-validation-for="Email"></span>
-        </div>
-    </div>
-    <div class="mb-3 row">
-        <div class="col-2">
-            <label asp-for="PhoneNumber" class="col-form-label">Numéro de téléphone</label>
-        </div>
-        <div class="col-3">
-            <input type="text" asp-for="PhoneNumber" class="form-control" />
-        </div>
-        <div class="col">
-            <span class="text-danger" asp-validation-for="PhoneNumber"></span>
-        </div>
-    </div>
-    <div class="mb-3 row">
-        <div class="col-2">
-            <label asp-for="StatusId" class="col-form-label">Statut de l'utilisateur</label>
-        </div>
-        <div class="col-3">
-            <select asp-for="StatusId" class="form-control">
-                <option value="">- Sélectionner -</option>
-                @if (Model.Statuses != null && Model.Statuses.Count() > 0)
-                {
-                    foreach (var status in Model.Statuses)
+        <div class="mb-3 row">
+            <div class="col-2">
+                <label asp-for="StatusId" class="col-form-label">Statut de l'utilisateur</label>
+            </div>
+            <div class="col-3">
+                <select asp-for="StatusId" class="form-control">
+                    <option value="">- Sélectionner -</option>
+                    @if (Model.Statuses != null && Model.Statuses.Count() > 0)
                     {
-                        <option value="@status.StatusId">@status.Type</option>
+                        foreach (var status in Model.Statuses)
+                        {
+                            <option value="@status.StatusId">@status.Type</option>
+                        }
                     }
-                }
-            </select>
+                </select>
+            </div>
+            <div class="col">
+                <span class="text-custom-color-orange" asp-validation-for="StatusId"></span>
+            </div>
         </div>
-        <div class="col">
-            <span class="text-danger" asp-validation-for="StatusId"></span>
-        </div>
-    </div>
-    <div class="mb-3 row">
-        <div class="col-2">
-            <label asp-for="DepartmentId" class="col-form-label">Service ou classe</label>
-        </div>
-        <div class="col-3">
-            <select asp-for="DepartmentId" class="form-control">
-                <option value="">- Sélectionner -</option>
-                @if (Model.Departments != null && Model.Departments.Count() > 0)
-                {
-                    foreach (var department in Model.Departments)
+        <div class="mb-3 row">
+            <div class="col-2">
+                <label asp-for="DepartmentId" class="col-form-label">Service ou classe</label>
+            </div>
+            <div class="col-3">
+                <select asp-for="DepartmentId" class="form-control">
+                    <option value="">- Sélectionner -</option>
+                    @if (Model.Departments != null && Model.Departments.Count() > 0)
                     {
-                        <option value="@department.DepartmentId">@department.Name</option>
+                        foreach (var department in Model.Departments)
+                        {
+                            <option value="@department.DepartmentId">@department.Name</option>
+                        }
                     }
-                }
-            </select>
+                </select>
+            </div>
+            <div class="col">
+                <span class="text-custom-color-orange" asp-validation-for="DepartmentId"></span>
+            </div>
         </div>
-        <div class="col">
-            <span class="text-danger" asp-validation-for="DepartmentId"></span>
+        <div class="mb-3 row">
+            <div class="col-2">
+                <input type="submit" class="btn custom-color-orange text-white custom-bottom-shadow" value="Créer" />
+            </div>
+            <div class="col-3">
+            </div>
         </div>
-    </div>
-    <div class="mb-3 row">
-        <div class="col-2">
-            <input type="submit" class="btn btn-primary" value="Créer" />
-        </div>
-        <div class="col-3">
-        </div>
-    </div>
-</form>
+    </form>
