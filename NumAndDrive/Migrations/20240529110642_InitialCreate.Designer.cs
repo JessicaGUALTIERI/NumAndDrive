@@ -12,7 +12,7 @@ using NumAndDrive.Database;
 namespace NumAndDrive.Migrations
 {
     [DbContext(typeof(NumAndDriveDbContext))]
-    [Migration("20240528141232_InitialCreate")]
+    [Migration("20240529110642_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -174,7 +174,7 @@ namespace NumAndDrive.Migrations
 
                     b.HasKey("ActivationDayId");
 
-                    b.ToTable("ActivationDay", (string)null);
+                    b.ToTable("activationDay", (string)null);
 
                     b.HasData(
                         new
@@ -229,7 +229,7 @@ namespace NumAndDrive.Migrations
 
                     b.HasIndex("ActivationDayId");
 
-                    b.ToTable("ActivationDays__Journeys", (string)null);
+                    b.ToTable("activationDays__journeys", (string)null);
                 });
 
             modelBuilder.Entity("NumAndDrive.Models.Address", b =>
@@ -265,7 +265,7 @@ namespace NumAndDrive.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Address", (string)null);
+                    b.ToTable("address", (string)null);
 
                     b.HasData(
                         new
@@ -290,7 +290,7 @@ namespace NumAndDrive.Migrations
 
                     b.HasIndex("JourneyId");
 
-                    b.ToTable("Addresses__Journeys", (string)null);
+                    b.ToTable("addresses__journeys", (string)null);
                 });
 
             modelBuilder.Entity("NumAndDrive.Models.Car", b =>
@@ -344,7 +344,7 @@ namespace NumAndDrive.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Car", (string)null);
+                    b.ToTable("car", (string)null);
                 });
 
             modelBuilder.Entity("NumAndDrive.Models.Company", b =>
@@ -362,7 +362,7 @@ namespace NumAndDrive.Migrations
 
                     b.HasKey("CompanyId");
 
-                    b.ToTable("Company", (string)null);
+                    b.ToTable("company", (string)null);
 
                     b.HasData(
                         new
@@ -395,7 +395,7 @@ namespace NumAndDrive.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Department", (string)null);
+                    b.ToTable("department", (string)null);
 
                     b.HasData(
                         new
@@ -420,7 +420,7 @@ namespace NumAndDrive.Migrations
 
                     b.HasKey("FilterId");
 
-                    b.ToTable("Filter", (string)null);
+                    b.ToTable("filter", (string)null);
 
                     b.HasData(
                         new
@@ -497,7 +497,7 @@ namespace NumAndDrive.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Filters__Users", (string)null);
+                    b.ToTable("filters__users", (string)null);
                 });
 
             modelBuilder.Entity("NumAndDrive.Models.Fuel", b =>
@@ -585,7 +585,7 @@ namespace NumAndDrive.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Journey", (string)null);
+                    b.ToTable("journey", (string)null);
                 });
 
             modelBuilder.Entity("NumAndDrive.Models.Journeys_Users", b =>
@@ -724,7 +724,7 @@ namespace NumAndDrive.Migrations
 
                     b.HasIndex("UserSenderId");
 
-                    b.ToTable("Review", (string)null);
+                    b.ToTable("review", (string)null);
                 });
 
             modelBuilder.Entity("NumAndDrive.Models.Reward", b =>
@@ -749,7 +749,7 @@ namespace NumAndDrive.Migrations
 
                     b.HasKey("RewardId");
 
-                    b.ToTable("Reward", (string)null);
+                    b.ToTable("reward", (string)null);
 
                     b.HasData(
                         new
@@ -867,6 +867,7 @@ namespace NumAndDrive.Migrations
 
                     b.Property<sbyte>("IsFirstLogin")
                         .ValueGeneratedOnAdd()
+                        .HasMaxLength(1)
                         .HasColumnType("tinyint")
                         .HasDefaultValue((sbyte)0);
 
