@@ -7,6 +7,7 @@ namespace NumAndDrive.Models.Repositories
 	{
         Task UploadUsersFromCSVFile(Admin admin);
         string PasswordGenerator();
+        bool IsUserValid(User user);
     }
 }
 

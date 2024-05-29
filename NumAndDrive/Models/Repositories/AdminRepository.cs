@@ -238,19 +238,23 @@ namespace NumAndDrive.Models.Repositories
         /// <returns>true if the name is valid; otherwise, false</returns>
         public bool IsNameValid(string name)
         {
-            bool validator = true;
-            name = name.Trim();
+            if (name != null)
+            {
+                bool validator = true;
+                name = name.Trim();
 
-            if (name.Length < 1)
-                validator = false;
-            else if (name.Length > 100)
-                validator = false;
-            else if (!Regex.IsMatch(name, @"^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$"))
-                validator = false;
-            else if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
-                validator = false;
+                if (name.Length < 1)
+                    validator = false;
+                else if (name.Length > 100)
+                    validator = false;
+                else if (!Regex.IsMatch(name, @"^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$"))
+                    validator = false;
+                else if (string.IsNullOrEmpty(name) || string.IsNullOrWhiteSpace(name))
+                    validator = false;
 
-            return validator;
+                return validator;
+            }
+            return false;
         }
 
         /// <summary>
@@ -260,16 +264,20 @@ namespace NumAndDrive.Models.Repositories
         /// <returns>true if the email address is valid; otherwise, false</returns>
         public bool IsEmailValid(string mail)
         {
-            mail = mail.Trim();
+            if (mail != null)
+            {
+                mail = mail.Trim();
 
-            if (string.IsNullOrEmpty(mail) || string.IsNullOrWhiteSpace(mail))
-                return false;
-            else if (!Regex.IsMatch(mail, @"^[a-zA-Z0-9]+[a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
-                return false;
-            else if (mail.Length > 256)
-                return false;
+                if (string.IsNullOrEmpty(mail) || string.IsNullOrWhiteSpace(mail))
+                    return false;
+                else if (!Regex.IsMatch(mail, @"^[a-zA-Z0-9]+[a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
+                    return false;
+                else if (mail.Length > 256)
+                    return false;
 
-            return true;
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
@@ -279,17 +287,21 @@ namespace NumAndDrive.Models.Repositories
         /// <returns>true if the phone number is valid; otherwise, false</returns>
         public bool IsPhoneNumberValid(string phoneNumber)
         {
-            phoneNumber = phoneNumber.Trim();
-            phoneNumber = phoneNumber.Replace(" ", "");
+            if (phoneNumber != null)
+            {
+                phoneNumber = phoneNumber.Trim();
+                phoneNumber = phoneNumber.Replace(" ", "");
 
-            if (string.IsNullOrEmpty(phoneNumber) || string.IsNullOrWhiteSpace(phoneNumber))
-                return false;
-            else if (phoneNumber.Length != 10)
-                return false;
-            else if (!Regex.IsMatch(phoneNumber, @"^0\d{9}$"))
-                return false;
+                if (string.IsNullOrEmpty(phoneNumber) || string.IsNullOrWhiteSpace(phoneNumber))
+                    return false;
+                else if (phoneNumber.Length != 10)
+                    return false;
+                else if (!Regex.IsMatch(phoneNumber, @"^0\d{9}$"))
+                    return false;
 
-            return true;
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
@@ -348,6 +360,17 @@ namespace NumAndDrive.Models.Repositories
                     return false;
             }
             return true;
+        }
+
+        public bool IsUserValid(User user)
+        {
+            bool result = false;
+            if (user != null)
+                result = IsNameValid(user.FirstName)
+                    && IsNameValid(user.LastName)
+                    && IsEmailValid(user.Email)
+                    && IsPhoneNumberValid(user.PhoneNumber);
+            return result;
         }
     }
 }

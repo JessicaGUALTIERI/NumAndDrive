@@ -104,12 +104,27 @@ namespace NumAndDrive.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateSingleUser(User user)
+        public async Task<IActionResult> CreateSingleUser(CreateUserViewModel userViewModel)
         {
-            user.UserName = user.Email;
-            user.ProfilePicturePath = "";
-            await _userManager.CreateAsync(user, _adminRepository.PasswordGenerator());
-            return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                User user = new User
+                {
+                    LastName = userViewModel.LastName,
+                    FirstName = userViewModel.FirstName,
+                    Email = userViewModel.Email,
+                    PhoneNumber = userViewModel.Email,
+                    StatusId = userViewModel.StatusId,
+                    DepartmentId = userViewModel.DepartmentId,
+                    ProfilePicturePath = "",
+                    UserName = userViewModel.Email
+                };
+                await _userManager.CreateAsync(user, _adminRepository.PasswordGenerator());
+                return RedirectToAction(nameof(Index));
+            }
+            userViewModel.Statuses = Db.Statuses.ToList();
+            userViewModel.Departments = Db.Departments.ToList();
+            return View(userViewModel);
         }
     }
 }
