@@ -27,6 +27,11 @@ namespace NumAndDrive.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return View("~/Views/Home/Index.cshtml");
+            }
+
             return View();
         }
 
