@@ -125,7 +125,7 @@ namespace NumAndDrive.Controllers
                     PhoneNumber = userViewModel.Email,
                     StatusId = userViewModel.StatusId,
                     DepartmentId = userViewModel.DepartmentId,
-                    ProfilePicturePath = "",
+                    ProfilePicturePath = "/img/profile-pic-blue.png",
                     UserName = userViewModel.Email
                 };
                 await _userManager.CreateAsync(user, _adminRepository.PasswordGenerator());

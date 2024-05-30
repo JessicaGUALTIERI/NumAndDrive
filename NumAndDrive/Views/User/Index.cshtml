@@ -1,0 +1,30 @@
+﻿@using NumAndDrive.ViewModels;
+@model ProfileUserViewModel
+
+@if (Model != null)
+{
+    <div>
+        <div class="col-5">
+            <div class="d-flex flex-column align-items-center text-center">
+                <img class="col-6 border border-dark border-1 rounded-5 rounded-circle p-3" src="@Model.ProfilePicturePath" alt="Photo de profil" />
+                <p class="text-custom-color-blue mt-5 mb-0 fw-bold fs-2"><span class="text-uppercase">@Model.LastName</span> @Model.FirstName</p>
+                <p class="text-custom-color-blue mb-5 fst-italic fs-3 fw-lighter">@Model.UserType</p>
+                <div class="text-custom-color-blue fs-4 fw-light">
+                        @if (Model.City != null)
+                            {
+                            <p>@Model.City</p>
+                            }
+                            else
+                            {
+                            <p>Ville non renseignée</p>
+                            }
+                    <p>@Model.Status</p>
+                </div>
+                <img class="col-4 m-5" src="/img/basic-notation.png" alt="Notes de la communauté"/>
+            </div>
+        </div>
+        <div class="col-7">
+
+        </div>
+    </div>
+}

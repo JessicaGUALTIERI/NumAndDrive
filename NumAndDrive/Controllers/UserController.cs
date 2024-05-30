@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NumAndDrive.Database;
 using NumAndDrive.Models;
+using NumAndDrive.ViewModels;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,26 +15,33 @@ namespace NumAndDrive.Controllers
     public class UserController : Controller
     {
 
-        public NumAndDriveDbContext Db;
-        public UserManager<User> UserManager;
+        private NumAndDriveDbContext _db;
+        private UserManager<User> _userManager;
 
         public UserController(NumAndDriveDbContext db, UserManager<User> userManager)
         {
-            Db = db;
-            UserManager = userManager;
+            _db = db;
+            _userManager = userManager;
         }
 
-        // GET: /<controller>/
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult getMyId()
-        {
-            string userId = UserManager.GetUserId(User);
-            User userToGet = Db.Users.Find(userId);
-            return View(userToGet);
+            string id = _userManager.GetUserId(User);
+            User user = _db.Users.Find(id);
+            int? userTypeId = user.UserTypeId;
+            UserType userType = _db.UserTypes.Find(userTypeId);
+            int? statusId = user.StatusId;
+            Status status = _db.Statuses.Find(statusId);
+            ProfileUserViewModel profileUser = new ProfileUserViewModel
+            {
+                LastName = user.LastName,
+                FirstName = user.FirstName,
+                ProfilePicturePath = user.ProfilePicturePath,
+                UserType = userType.TypeName,
+                City = null,
+                Status = status.Type
+            };
+            return View(profileUser);
         }
     }
 }

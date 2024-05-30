@@ -105,7 +105,7 @@ namespace NumAndDrive.Models.Repositories
                             FirstName = firstName,
                             LastName = lastName,
                             ArchiveDate = null,
-                            ProfilePicturePath = @"../../wwwroot/img/logo-detailed.png",
+                            ProfilePicturePath = "/img/profile-pic-blue.png",
                             Email = mail,
                             PhoneNumber = phoneNumber,
                             DepartmentId = departmentId,
