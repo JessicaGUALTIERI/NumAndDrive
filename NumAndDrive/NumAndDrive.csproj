@@ -30,6 +30,7 @@
     <None Remove="ViewModels\" />
     <None Remove="Views\Account\" />
     <None Remove="Views\User\" />
+    <None Remove="Views\Error\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Database\" />
@@ -39,5 +40,6 @@
     <Folder Include="ViewModels\" />
     <Folder Include="Views\Account\" />
     <Folder Include="Views\User\" />
+    <Folder Include="Views\Error\" />
   </ItemGroup>
 </Project>

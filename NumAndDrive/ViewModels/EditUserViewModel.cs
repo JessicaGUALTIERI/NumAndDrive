@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using NumAndDrive.Models;
 
 namespace NumAndDrive.ViewModels
 {
@@ -20,6 +21,16 @@ namespace NumAndDrive.ViewModels
         [Required(ErrorMessage = "Le numéro est obligatoire.")]
         [RegularExpression(@"^0\d{9}$", ErrorMessage = "Le numéro saisi n'est pas conforme.")]
         public string PhoneNumber { get; set; }
-	}
+
+
+        [Required(ErrorMessage = "Le statut est obligatoire.")]
+        public int? StatusId { get; set; }
+
+        [Required(ErrorMessage = "Le service est obligatoire.")]
+        public int? DepartmentId { get; set; }
+
+        public IEnumerable<Status> Statuses { get; set; }
+        public IEnumerable<Department> Departments { get; set; }
+    }
 }
 

@@ -1,27 +1,31 @@
 ﻿@using NumAndDrive.Models
 @model IEnumerable<Journey>
-
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Adresse de départ</th>
-            <th>Adresse d'arrivée</th>
-            <th>Heure de départ</th>
-            <th>Jour du départ</th>
-            <th>Conducteur</th>
-            <th>Place(s) disponible(s)</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var journey in Model)
-        {
-            <tr>
-                <th>@journey.AddressDeparting.City</th>
-                <th>@journey.AddressIncoming.Company.Name</th>
-                <th>@journey.DepartureHour</th>
-                <th>@journey.DepartureDate</th>
-                <th>@journey.User.FirstName</th>
-                <th>@journey.AvailableSpots</th>
-            </tr>
+    <style>
+        .scrollable-container {
+            height: 400px; 
+            overflow-y: scroll;
+            border: 1px solid #ccc;
         }
-    </tbody>
+
+        .information-block {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+
+    </style>
+        <div class="col-3 scrollable-container">
+            @foreach (var journey in Model)
+            {
+                <div class="information-block">
+                    <div class="row">
+                        <p class="col-6">@journey.AddressDeparting.City > @journey.AddressIncoming.Company.Name</p>
+                        <p class="col-6">@journey.User.FirstName</p>
+                    </div>
+                    <div class="row">
+                        <p>Le @journey.DepartureDate, à @journey.DepartureHour</p>
+                    </div>
+                </div>
+            }
+        </div>
+
+

@@ -54,7 +54,9 @@ namespace NumAndDrive.Controllers
                 Id = id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                PhoneNumber = user.PhoneNumber
+                PhoneNumber = user.PhoneNumber,
+                Statuses = Db.Statuses,
+                Departments = Db.Departments
             };
             return View(editUserViewModel);
         }
