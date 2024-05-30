@@ -47,7 +47,15 @@
                                 {
                                     foreach (Journey journey in Model.JourneysCompleted)
                                     {
-                                        <p class="p-2 m-0 fs-4 fw-light">@journey.AddressDeparting.City > @journey.AddressIncoming.City</p>
+                                        <div class="row d-flex align-items-center border-bottom border-dark p-2">
+                                            <div class="col-9">
+                                                <p class="m-0 fs-5 fw-light">@journey.AddressDeparting.City > @journey.AddressIncoming.City</p>
+                                                <p class="m-0 fs-5 fw-light">@journey.DepartureDate - @journey.DepartureHour</p>
+                                            </div>
+                                            <div class="col-3">
+                                                <p class="m-0 fs-1 fw-light text-custom-color-orange">></p>
+                                            </div>
+                                        </div>
                                     }
                                 }
                             </div>
@@ -56,7 +64,15 @@
                                 {
                                     foreach (Journey journey in Model.JourneysToCome)
                                     {
-                                        <p class="p-2 m-0 fs-4 fw-light">@journey.AddressDeparting.City > @journey.AddressIncoming.City</p>
+                                        <div class="row d-flex align-items-center border-bottom border-dark p-2">
+                                            <div class="col-9">
+                                                <p class="m-0 fs-5 fw-light">@journey.AddressDeparting.City > @journey.AddressIncoming.City</p>
+                                                <p class="m-0 fs-5 fw-light">@journey.DepartureDate - @journey.DepartureHour</p>
+                                            </div>
+                                            <div class="col-3">
+                                                <p class="m-0 fs-1 fw-light text-custom-color-orange">></p>
+                                            </div>
+                                        </div>
                                     }
                                 }
                             </div>
