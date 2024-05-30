@@ -91,6 +91,15 @@ namespace NumAndDrive.Controllers
                 return NotFound();
             }
 
+            user.FirstName = "utilisateur";
+            user.LastName = "utilisateur";
+            user.Email = null;
+            user.NormalizedEmail = null;
+            user.PhoneNumber = null;
+            user.Email = null;
+            user.UserName = "utilisateur";
+            user.NormalizedUserName = "UTILISATEUR";
+
             user.ArchiveDate = DateOnly.FromDateTime(DateTime.UtcNow);
             Db.SaveChanges();
 
