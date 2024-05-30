@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NumAndDrive.Database;
 using NumAndDrive.Models;
 using NumAndDrive.ViewModels;
@@ -30,10 +31,27 @@ namespace NumAndDrive.Controllers
         {
             string id = _userManager.GetUserId(User);
             User user = _db.Users.Find(id);
+
             int? userTypeId = user.UserTypeId;
             UserType userType = _db.UserTypes.Find(userTypeId);
+
             int? statusId = user.StatusId;
             Status status = _db.Statuses.Find(statusId);
+
+            List<Journey> journeys = _db.Journeys
+                .Include(x => x.AddressDeparting)
+                .Where(x => x.UserId == id)
+                .ToList();
+
+            DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+            TimeOnly now = TimeOnly.FromDateTime(DateTime.Now);
+
+            List<Journey> journeysCompleted = journeys.Where(x => (x.DepartureDate == today && x.DepartureHour < now) || (x.DepartureDate < today))
+                .ToList();
+
+            List<Journey> journeysToCome = journeys.Where(x => (x.DepartureDate == today && x.DepartureHour > now) || (x.DepartureDate > today))
+                .ToList();
+
             ProfileUserViewModel profileUser = new ProfileUserViewModel
             {
                 LastName = user.LastName,
@@ -41,7 +59,9 @@ namespace NumAndDrive.Controllers
                 ProfilePicturePath = user.ProfilePicturePath,
                 UserType = userType.TypeName,
                 City = null,
-                Status = status.Type
+                Status = status.Type,
+                JourneysCompleted = journeysCompleted,
+                JourneysToCome = journeysToCome
             };
             return View(profileUser);
         }
