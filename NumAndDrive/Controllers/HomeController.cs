@@ -1,10 +1,12 @@
 ﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NumAndDrive.Database;
 using NumAndDrive.Models;
 
 namespace NumAndDrive.Controllers;
 
+[Authorize]
 public class HomeController : Controller
 {
     private NumAndDriveDbContext Db { get; set; }

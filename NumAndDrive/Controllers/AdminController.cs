@@ -4,6 +4,7 @@ using System.Formats.Asn1;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NumAndDrive.Database;
@@ -13,6 +14,7 @@ using NumAndDrive.ViewModels;
 
 namespace NumAndDrive.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
 

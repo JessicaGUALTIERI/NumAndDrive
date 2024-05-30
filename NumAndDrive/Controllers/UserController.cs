@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NumAndDrive.Database;
@@ -12,6 +13,7 @@ using NumAndDrive.ViewModels;
 
 namespace NumAndDrive.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
 
