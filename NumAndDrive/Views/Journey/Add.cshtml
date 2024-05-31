@@ -4,30 +4,32 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <h2 class="text-center mb-4">Quel trajet proposez vous ?</h2>
 
-    <form method="post" asp-controller="journey" asp-action="Add">
-        <div class="text-danger" asp-validation-summary="All"></div>
-        <div class="row justify-content-center mb-4">
-            <div class="col-4">
-                <h4 class="text-center">D'où partons nous ?</h4>
-                <input type="text" asp-for="AddressToTrim" id="search" placeholder="Entrez une adresse" class="form-control" />
-                <ul id="suggestions" class="list-group"></ul>
-            </div>
-            <div class="col-4">
-                <h4 class="text-center">Où allons nous ?</h4>
-                <select asp-for="Journey.AddressIncomingId" class="form-control">
-                    <option>- Séléctionner -</option>
-                    @if (Model.Company != null && Model.Company.Count() > 0)
+<div class="container">
+    <div class="row border border-black">
+        <form method="post" asp-controller="journey" asp-action="Add">
+            <div class="text-danger" asp-validation-summary="All"></div>
+            <div class="row justify-content-center mb-4">
+                <div class="col-4">
+                    <h4 class="text-center">D'où partons nous ?</h4>
+                    <input type="text" asp-for="AddressToTrim" id="search" placeholder="Entrez une adresse" class="form-control" />
+                    <ul id="suggestions" class="list-group"></ul>
+                </div>
+                <div class="col-4">
+                    <h4 class="text-center">Où allons nous ?</h4>
+                    <select asp-for="Journey.AddressIncomingId" class="form-control">
+                        <option>- Séléctionner -</option>
+                        @if (Model.Company != null && Model.Company.Count() > 0)
                         {
                             foreach (var company in Model.Company)
                             {
                                 <option value="@company.CompanyId">@company.Name</option>
                             }
                         }
-                </select>
+                    </select>
+                </div>
             </div>
-        </div>
 
-        <div class="row justify-content-center mb-4">
+            <div class="row justify-content-center mb-4">
                 <h4 class="text-center">Quand partons nous?</h4>
                 <div class="col-4">
                     <input asp-for="Journey.DepartureDate" type="date" id="date" class="form-control" />
@@ -37,21 +39,24 @@
                 </div>
             </div>
 
-        <div class="row justify-content-center">
-            <div class="col-4">
-                <h4>Combien de places avez vous?</h4>
-                <input type="number" asp-for="Journey.AvailableSpots" class="form-control" />
+            <div class="row justify-content-center">
+                <div class="col-4">
+                    <h4>Combien de places avez vous?</h4>
+                    <input type="number" asp-for="Journey.AvailableSpots" class="form-control" />
+                </div>
+                <div class="col-4">
+                </div>
             </div>
-            <div class="col-4">
-            </div>
-        </div>
             <div class="row d-flex flex-row-reverse">
                 <div class="col-3 mt-3">
                     <input type="submit" class="btn custom-color-orange text-white custom-bottom-shadow" value="Créer" />
                 </div>
             </div>
 
-</form>
+        </form>
+    </div>
+</div>
+    
     
 
 <script>$(document).ready(function () {
