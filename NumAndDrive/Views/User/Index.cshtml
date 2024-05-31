@@ -1,4 +1,5 @@
 ﻿@using NumAndDrive.ViewModels;
+@using NumAndDrive.Models;
 @model ProfileUserViewModel
 
 @if (Model != null)
@@ -39,18 +40,51 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="border border-dark border-top-0 rounded-bottom col">
+                    <div class="border border-dark border-top-0 rounded-bottom col custom-bottom-shadow">
                         <div class="row">
-                            <p class="col-6 border-end border-dark p-2 m-0 fs-4 fw-light">Uckange > Metz</p>
-                            <p class="col-6 p-2 m-0 fs-4 fw-light">Metz-Uckange</p>
+                            <div class="col-6 vh-40 border-end border-dark overflow-auto">
+                                @if (Model.JourneysCompleted != null && Model.JourneysCompleted.Count() > 0)
+                                {
+                                    foreach (Journey journey in Model.JourneysCompleted)
+                                    {
+                                        <div class="row d-flex align-items-center border-bottom border-dark p-2">
+                                            <div class="col-9">
+                                                <p class="m-0 fs-5 fw-light">@journey.AddressDeparting.City > @journey.AddressIncoming.City</p>
+                                                <p class="m-0 fs-5 fw-light">@journey.DepartureDate - @journey.DepartureHour</p>
+                                            </div>
+                                            <div class="col-3">
+                                                <p class="m-0 fs-1 fw-light text-custom-color-orange">></p>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <div class="col-6 vh-40 overflow-auto">
+                                @if (Model.JourneysToCome != null && Model.JourneysToCome.Count() > 0)
+                                {
+                                    foreach (Journey journey in Model.JourneysToCome)
+                                    {
+                                        <div class="row d-flex align-items-center border-bottom border-dark p-2">
+                                            <div class="col-9">
+                                                <p class="m-0 fs-5 fw-light">@journey.AddressDeparting.City > @journey.AddressIncoming.City</p>
+                                                <p class="m-0 fs-5 fw-light">@journey.DepartureDate - @journey.DepartureHour</p>
+                                            </div>
+                                            <div class="col-3">
+                                                <p class="m-0 fs-1 fw-light text-custom-color-orange">></p>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
                         </div>
-                    </div>                </div>
+                    </div>
+                </div>
                 <div class="row mt-5">
                     <div class="card border-dark col custom-bottom-shadow">
                         <div class="card-body d-flex justify-content-between align-items-center">
                             <img class="col-1 icon-default-height" src="/img/rewards-icon.png" alt="Récompenses" />
-                            <p class="fs-3 col-10 text-custom-color-blue">Mes badges et récompenses</p>
-                            <p class="fs-1 text-custom-color-orange col-1 fw-lighter">></p>
+                            <p class="fs-3 col-10 text-custom-color-blue m-0">Mes badges et récompenses</p>
+                            <p class="fs-1 text-custom-color-orange col-1 fw-lighter m-0">></p>
                         </div>
                     </div>
                 </div>
