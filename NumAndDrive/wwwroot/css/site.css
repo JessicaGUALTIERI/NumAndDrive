@@ -77,6 +77,10 @@ body {
     height: 40vh;
 }
 
+.vh-60 {
+    height: 60vh;
+}
+
 .vh-75 {
     height: 75vh;
 }
