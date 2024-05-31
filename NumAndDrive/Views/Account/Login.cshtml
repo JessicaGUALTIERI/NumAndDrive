@@ -1,42 +1,102 @@
-﻿@model NumAndDrive.ViewModels.LoginViewModel
-
-@*@{
-    ViewData["Title"] = "Connectez vous";
+﻿@{
+    Layout = null;
 }
 
-<h2>@ViewData["Title"]</h2>*@
+@model NumAndDrive.ViewModels.LoginViewModel
 
-<div class="row">
-    <div class="col-6">
-        <img src="~/img/logo.png" />
-    </div>
-    <div class="col-6 mt-4">
-        <h3>Connectez vous</h3>
-        <form asp-action="Login">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group mt-3">
-                <label asp-for="Email" class="control-label">Email</label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group mt-3">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group mt-3">
-                <div class="form-check">
-                    <input asp-for="RememberMe" class="form-check-input" />
-                    <label asp-for="RememberMe" class="form-check-label">Se souvenir de moi ?</label>
+<!DOCTYPE html>
+<html lang="fr-fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Num&Drive</title>
+    <link rel="icon" href="../favicon.png"/>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+
+    <div class="row">
+        <div class="vh-100 col-5 d-flex justify-content-end align-items-center">
+            <img src="/img/logo-detailed.png" alt="Logo de l'application" />
+
+        </div>
+
+        <div class="col-1 vh-100 d-flex align-items-center justify-content-end">
+            <div class="vh-75 border-end border-dark border-2"></div>
+        </div>
+
+        <div class="vh-100 col-6 d-flex justify-content-center align-items-center">
+            <div class="col-6">
+                <div class="col rounded-top border border-dark text-custom-color-orange text-uppercase text-center fs-1 fw-bold custom-color-blue p-3">
+                    <p class="m-0">Portail de connexion</p>
+                </div>
+
+                <div class="col rounded-bottom border border-top-0 border-dark px-4 py-2">
+                    <form asp-controller="account" asp-action="login">
+                        <div class="text-custom-color-orange" asp-validation-summary="ModelOnly"></div>
+                        <div class="row">
+                            <div class="col">
+                                <label asp-for="Email" class="col-form-label fs-4 fw-lighter">Adresse mail :</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <input asp-for="Email" class="bg-white form-control border border-dark rounded-0 custom-inner-shadow" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <span class="text-custom-color-orange" asp-validation-for="Email"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <label asp-for="Password" class="col-form-label fs-4 fw-lighter">Mot de passe :</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <input asp-for="Password" class="bg-white form-control border border-dark rounded-0 custom-inner-shadow" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <span class="text-custom-color-orange" asp-validation-for="Password"></span>
+                            </div>
+                        </div>
+
+                        <div class="row my-3">
+                            <div class="col-1">
+                                <input asp-for="RememberMe" class="form-check-input border-dark" />
+                            </div>
+                            <div class="col-11">
+                                <label asp-for="RememberMe" class="form-check-label">Se souvenir de moi ?</label>
+                            </div>
+                        </div>
+
+                        <div class="row d-flex justify-content-end">
+                            <div class="col-2">
+                                <input type="submit" class="btn custom-color-blue text-custom-color-orange custom-bottom-shadow fw-bold custom-bottom-shadow fs-4" value="OK" />
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="mb-3">
+                        <a href="" class="text-black">Mot de passe oublié</a>
+                    </div>
                 </div>
             </div>
-            <div class="form-group mt-3">
-                <button type="submit" class="btn custom-color-orange text-white custom-bottom-shadow">Se connecter</button>
-            </div>
-        </form>
+        </div>
     </div>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>
