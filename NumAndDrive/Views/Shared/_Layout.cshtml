@@ -32,6 +32,13 @@
                             </div>
                         }
 
+                        @if (currentController == "User" && currentAction == "Index")
+                        {
+                                <a class="nav-link active" aria-current="page" asp-controller="User" asp-action="Settings">
+                                    <img src="/img/settings-icon.png" alt="Réglages" class="vh-5"/>
+                                </a>
+                        }
+
                         @if (!(currentController == "Messages" && currentAction == "Index"))
                         {
                             <div class="border border-dark text-custom-color-blue custom-bottom-shadow fw-bold d-flex justify-content-center align-items-center">

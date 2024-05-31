@@ -61,8 +61,16 @@ body {
     margin: 100px auto;
 }
 
+.vh-5 {
+    height: 5vh;
+}
+
 .vh-25 {
     height: 25vh;
+}
+
+.h-33 {
+    height: 33.33%;
 }
 
 .vh-40 {
@@ -75,4 +83,8 @@ body {
 
 input.custom-focus:focus {
     outline: none;
+}
+
+.custom-top-left-position {
+    transform: translateY(130%);
 }

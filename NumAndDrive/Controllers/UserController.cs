@@ -65,6 +65,11 @@ namespace NumAndDrive.Controllers
             };
             return View(profileUser);
         }
+
+        public IActionResult Settings()
+        {
+            return View();
+        }
     }
 }
 
