@@ -65,11 +65,14 @@ body {
     height: 25vh;
 }
 
+.vh-40 {
+    height: 40vh;
+}
+
 .vh-75 {
     height: 75vh;
 }
 
 input.custom-focus:focus {
     outline: none;
-    border: 1px orange solid;
 }
