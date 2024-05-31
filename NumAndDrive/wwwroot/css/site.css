@@ -61,8 +61,20 @@ body {
     margin: 100px auto;
 }
 
+.vh-25 {
+    height: 25vh;
+}
+
 .vh-40 {
     height: 40vh;
+}
+
+.vh-50 {
+    height: 50vh;
+}
+
+.vh-60 {
+    height: 60vh;
 }
 
 .vh-75 {
