@@ -19,7 +19,6 @@ builder.Services.AddDbContext<NumAndDriveDbContext>(options => options.UseMySql(
 
 builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<NumAndDriveDbContext>().AddDefaultTokenProviders();
 
-//builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 
 var app = builder.Build();
 
@@ -43,6 +42,18 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Account}/{action=Login}");
+
+app.MapControllerRoute(
+    name: "PageNotFound",
+    pattern: "{controller=Error}/{action=PageNotFound}"
+);
+
+app.MapControllerRoute(
+    name: "AccessDenied",
+    pattern: "{controller=Error}/{action=AccessDenied}");
+
+
+
 
 //app.MapRazorPages();
 

@@ -49,13 +49,13 @@ namespace NumAndDrive.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    //string userId = _userManager.GetUserId(User);
-                    //var user = Db.Users.Find(userId);
-                    //if (user.IsFirstLogin == 0)
-                    //{
-                    //    user.IsFirstLogin = 1;
-                    //    return View("FirstLogin");
-                    //}
+                    string userId = _userManager.GetUserId(User);
+                    var user = Db.Users.Find(userId);
+                    if (user.IsFirstLogin == 0)
+                    { 
+                        Db.SaveChanges();
+                        return View("FirstLogin");
+                    }
                     return LocalRedirect(returnUrl ?? Url.Action("Index", "Home"));
                 }
                 else
@@ -64,6 +64,27 @@ namespace NumAndDrive.Controllers
                 }
             }
             return View(model);
+        }
+
+        public IActionResult FirstLogin()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> FirstLogin(ChangePasswordViewModel change)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            _userManager.ResetPasswordAsync(user, token, change.NewPassword);
+
+
+            user.IsFirstLogin = 1;
+            Db.SaveChanges();
+            _userManager.UpdateAsync(user);
+            _signInManager.RefreshSignInAsync(user);
+            return RedirectToAction("Index", "Home");
         }
 
         public async Task<IActionResult> Logout()

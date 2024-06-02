@@ -135,13 +135,16 @@ namespace NumAndDrive.Controllers
                     LastName = userViewModel.LastName,
                     FirstName = userViewModel.FirstName,
                     Email = userViewModel.Email,
-                    PhoneNumber = userViewModel.Email,
+                    PhoneNumber = userViewModel.PhoneNumber,
                     StatusId = userViewModel.StatusId,
                     DepartmentId = userViewModel.DepartmentId,
+                    UserTypeId = 11,
                     ProfilePicturePath = "/img/profile-pic-blue.png",
                     UserName = userViewModel.Email
                 };
-                await _userManager.CreateAsync(user, _adminRepository.PasswordGenerator());
+                await _userManager.CreateAsync(user, "Administrator!1");
+                //Placeholder pour le mdp que j'utilise'
+                //Administrator!1
                 return RedirectToAction(nameof(Index));
             }
             userViewModel.Statuses = Db.Statuses.ToList();

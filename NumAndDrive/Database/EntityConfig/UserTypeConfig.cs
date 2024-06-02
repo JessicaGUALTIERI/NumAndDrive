@@ -40,7 +40,8 @@ namespace NumAndDrive.Database.EntityConfig
                 new UserType { UserTypeId = 7, TypeName = "Pas du matin" },
                 new UserType { UserTypeId = 8, TypeName = "Copilote au top" },
                 new UserType { UserTypeId = 9, TypeName = "Compteur-euse d'histoires" },
-                new UserType { UserTypeId = 10, TypeName = "Ronfleur-euse" });
+                new UserType { UserTypeId = 10, TypeName = "Ronfleur-euse" },
+                new UserType { UserTypeId = 11, TypeName = "Nouveau-elle venu-e" });
         }
     }
 }

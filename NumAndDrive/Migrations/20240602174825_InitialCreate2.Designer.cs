@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NumAndDrive.Database;
 
@@ -11,9 +12,11 @@ using NumAndDrive.Database;
 namespace NumAndDrive.Migrations
 {
     [DbContext(typeof(NumAndDriveDbContext))]
-    partial class NumAndDriveDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240602174825_InitialCreate2")]
+    partial class InitialCreate2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

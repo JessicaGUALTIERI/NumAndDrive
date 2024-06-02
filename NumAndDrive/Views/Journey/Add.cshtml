@@ -2,10 +2,10 @@
 @model JourneyCompanyViewModel
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <h2 class="text-center mb-4">Quel trajet proposez vous ?</h2>
+    <h2 class="text-center mb-4">Quel trajet proposez-vous ?</h2>
 
 <div class="container">
-    <div class="row border border-black">
+    <div class="row border border-dark rounded p-5">
         <form method="post" asp-controller="journey" asp-action="Add">
             <div class="text-danger" asp-validation-summary="All"></div>
             <div class="row justify-content-center mb-4">
@@ -42,7 +42,7 @@
             <div class="row justify-content-center">
                 <div class="col-4">
                     <h4>Combien de places avez vous?</h4>
-                    <input type="number" asp-for="Journey.AvailableSpots" class="form-control" />
+                    <input type="number" asp-for="Journey.AvailableSpots" min="0" class="form-control" />
                 </div>
                 <div class="col-4">
                 </div>

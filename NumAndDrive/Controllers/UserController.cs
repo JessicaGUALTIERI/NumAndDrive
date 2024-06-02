@@ -33,6 +33,10 @@ namespace NumAndDrive.Controllers
             User user = _db.Users.Find(id);
 
             int? userTypeId = user.UserTypeId;
+
+            if (userTypeId == null)
+                userTypeId = 11;
+
             UserType userType = _db.UserTypes.Find(userTypeId);
 
             int? statusId = user.StatusId;
@@ -51,7 +55,7 @@ namespace NumAndDrive.Controllers
 
             List<Journey> journeysToCome = journeys.Where(x => (x.DepartureDate == today && x.DepartureHour > now) || (x.DepartureDate > today))
                 .ToList();
-
+                      
             ProfileUserViewModel profileUser = new ProfileUserViewModel
             {
                 LastName = user.LastName,
