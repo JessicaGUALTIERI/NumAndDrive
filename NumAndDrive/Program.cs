@@ -17,7 +17,8 @@ var connectionString = builder.Configuration.GetConnectionString("Project_NumAnd
 
 builder.Services.AddDbContext<NumAndDriveDbContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
-builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<NumAndDriveDbContext>().AddDefaultTokenProviders();
+builder.Services.AddIdentity<User, IdentityRole>().AddRoles<IdentityRole>().AddEntityFrameworkStores<NumAndDriveDbContext>().AddDefaultTokenProviders();
+
 
 
 var app = builder.Build();
@@ -52,7 +53,46 @@ app.MapControllerRoute(
     name: "AccessDenied",
     pattern: "{controller=Error}/{action=AccessDenied}");
 
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var roles = new[] { "Admin", "User" };
 
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+            await roleManager.CreateAsync(new IdentityRole(role));
+    }
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+
+    string mail = "admin@gmail.com";
+    string password = "Administrator!1";
+
+    if (await userManager.FindByEmailAsync(mail) == null)
+    {
+        User user = new User()
+        {
+
+            LastName = "admin",
+            FirstName = "admin",
+            IsFirstLogin = 1,
+            Email = mail,
+            PhoneNumber = "0707070707",
+            StatusId = 1,
+            DepartmentId = 1,
+            UserTypeId = 11,
+            ProfilePicturePath = "/img/profile-pic-blue.png",
+            UserName = mail,
+        };
+
+        await userManager.CreateAsync(user, password);
+        await userManager.AddToRoleAsync(user, "Admin");
+    }
+}
 
 
 //app.MapRazorPages();

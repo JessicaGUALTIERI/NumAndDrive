@@ -32,6 +32,9 @@
     <None Remove="Views\User\" />
     <None Remove="Views\Error\" />
     <None Remove="Views\Driver\" />
+    <None Remove="Areas\" />
+    <None Remove="Areas\Admin\" />
+    <None Remove="Areas\Users\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Database\" />
@@ -43,5 +46,8 @@
     <Folder Include="Views\User\" />
     <Folder Include="Views\Error\" />
     <Folder Include="Views\Driver\" />
+    <Folder Include="Areas\" />
+    <Folder Include="Areas\Admin\" />
+    <Folder Include="Areas\Users\" />
   </ItemGroup>
 </Project>

@@ -138,6 +138,8 @@ namespace NumAndDrive.Models.Repositories
             {
                 string password = PasswordGenerator();
                 await _userManager.CreateAsync(user, password);
+                await _userManager.AddToRoleAsync(user, "User");
+
             }
         }
 

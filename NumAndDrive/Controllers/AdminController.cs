@@ -14,7 +14,7 @@ using NumAndDrive.ViewModels;
 
 namespace NumAndDrive.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
 
@@ -143,6 +143,7 @@ namespace NumAndDrive.Controllers
                     UserName = userViewModel.Email
                 };
                 await _userManager.CreateAsync(user, "Administrator!1");
+                await _userManager.AddToRoleAsync(user, "User");
                 //Placeholder pour le mdp que j'utilise'
                 //Administrator!1
                 return RedirectToAction(nameof(Index));

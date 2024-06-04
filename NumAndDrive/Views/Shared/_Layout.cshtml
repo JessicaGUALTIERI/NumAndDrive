@@ -27,16 +27,19 @@
                     <div class="navbar-nav gap-3">
                         @if (!(currentController == "Admin" && currentAction == "Index"))
                         {
-                            <div class="border border-dark text-custom-color-blue custom-bottom-shadow fw-bold d-flex justify-content-center text-center align-items-center">
-                                <a class="nav-link active" aria-current="page" asp-controller="admin" asp-action="Index">Panel administrateur</a>
-                            </div>
-                        }
+                            if (User.IsInRole("Admin"))
+                            {
+                                <div class="border border-dark text-custom-color-blue custom-bottom-shadow fw-bold d-flex justify-content-center text-center align-items-center">
+                                    <a class="nav-link active" aria-current="page" asp-controller="admin" asp-action="Index">Panel administrateur</a>
+                                </div>
+                            }
 
+                        }
                         @if (currentController == "User" && currentAction == "Index")
                         {
-                                <a class="nav-link active" aria-current="page" asp-controller="User" asp-action="Settings">
-                                    <img src="/img/settings-icon.png" alt="Réglages" class="vh-5"/>
-                                </a>
+                            <a class="nav-link active" aria-current="page" asp-controller="User" asp-action="Settings">
+                                <img src="/img/settings-icon.png" alt="Réglages" class="vh-5" />
+                            </a>
                         }
 
                         @if (!(currentController == "Messages" && currentAction == "Index"))
@@ -57,7 +60,7 @@
                             </div>
                         }
 
-                            
+
                     </div>
                 </div>
             </div>
