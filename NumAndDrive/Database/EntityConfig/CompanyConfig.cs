@@ -12,7 +12,7 @@ namespace NumAndDrive.Database.EntityConfig
         public void Configure(EntityTypeBuilder<Company> modelBuilder)
         {
             // Name
-            modelBuilder.ToTable("company");
+            modelBuilder.ToTable("Company");
 
 
             // Primary Key

@@ -12,8 +12,8 @@ using NumAndDrive.Database;
 namespace NumAndDrive.Migrations
 {
     [DbContext(typeof(NumAndDriveDbContext))]
-    [Migration("20240602174825_InitialCreate2")]
-    partial class InitialCreate2
+    [Migration("20240606114224_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -174,7 +174,7 @@ namespace NumAndDrive.Migrations
 
                     b.HasKey("ActivationDayId");
 
-                    b.ToTable("activationDay", (string)null);
+                    b.ToTable("ActivationDay", (string)null);
 
                     b.HasData(
                         new
@@ -229,7 +229,7 @@ namespace NumAndDrive.Migrations
 
                     b.HasIndex("ActivationDayId");
 
-                    b.ToTable("activationDays__journeys", (string)null);
+                    b.ToTable("ActivationDays__journeys", (string)null);
                 });
 
             modelBuilder.Entity("NumAndDrive.Models.Address", b =>
@@ -265,7 +265,7 @@ namespace NumAndDrive.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("address", (string)null);
+                    b.ToTable("Address", (string)null);
 
                     b.HasData(
                         new
@@ -290,7 +290,7 @@ namespace NumAndDrive.Migrations
 
                     b.HasIndex("JourneyId");
 
-                    b.ToTable("addresses__journeys", (string)null);
+                    b.ToTable("Addresses__journeys", (string)null);
                 });
 
             modelBuilder.Entity("NumAndDrive.Models.Car", b =>
@@ -344,7 +344,7 @@ namespace NumAndDrive.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("car", (string)null);
+                    b.ToTable("Car", (string)null);
                 });
 
             modelBuilder.Entity("NumAndDrive.Models.Company", b =>
@@ -362,7 +362,7 @@ namespace NumAndDrive.Migrations
 
                     b.HasKey("CompanyId");
 
-                    b.ToTable("company", (string)null);
+                    b.ToTable("Company", (string)null);
 
                     b.HasData(
                         new
@@ -395,14 +395,92 @@ namespace NumAndDrive.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("department", (string)null);
+                    b.ToTable("Department", (string)null);
 
                     b.HasData(
                         new
                         {
                             DepartmentId = 1,
                             CompanyId = 1,
+                            Name = "Service non renseigné"
+                        },
+                        new
+                        {
+                            DepartmentId = 2,
+                            CompanyId = 1,
+                            Name = "Administration"
+                        },
+                        new
+                        {
+                            DepartmentId = 3,
+                            CompanyId = 1,
+                            Name = "Équipe pédagogique"
+                        },
+                        new
+                        {
+                            DepartmentId = 4,
+                            CompanyId = 1,
                             Name = "CDA"
+                        },
+                        new
+                        {
+                            DepartmentId = 5,
+                            CompanyId = 1,
+                            Name = "BSD"
+                        },
+                        new
+                        {
+                            DepartmentId = 6,
+                            CompanyId = 1,
+                            Name = "M2i"
+                        },
+                        new
+                        {
+                            DepartmentId = 7,
+                            CompanyId = 1,
+                            Name = "DevWeb"
+                        },
+                        new
+                        {
+                            DepartmentId = 8,
+                            CompanyId = 1,
+                            Name = "DFS"
+                        },
+                        new
+                        {
+                            DepartmentId = 9,
+                            CompanyId = 1,
+                            Name = "BSRC"
+                        },
+                        new
+                        {
+                            DepartmentId = 10,
+                            CompanyId = 1,
+                            Name = "TSSR"
+                        },
+                        new
+                        {
+                            DepartmentId = 11,
+                            CompanyId = 1,
+                            Name = "Incubateur"
+                        },
+                        new
+                        {
+                            DepartmentId = 12,
+                            CompanyId = 1,
+                            Name = "Num&Boost"
+                        },
+                        new
+                        {
+                            DepartmentId = 13,
+                            CompanyId = 1,
+                            Name = "MSRC"
+                        },
+                        new
+                        {
+                            DepartmentId = 14,
+                            CompanyId = 1,
+                            Name = "BSRC"
                         });
                 });
 
@@ -420,7 +498,7 @@ namespace NumAndDrive.Migrations
 
                     b.HasKey("FilterId");
 
-                    b.ToTable("filter", (string)null);
+                    b.ToTable("Filter", (string)null);
 
                     b.HasData(
                         new
@@ -497,7 +575,7 @@ namespace NumAndDrive.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("filters__users", (string)null);
+                    b.ToTable("Filters__users", (string)null);
                 });
 
             modelBuilder.Entity("NumAndDrive.Models.Fuel", b =>
@@ -585,7 +663,7 @@ namespace NumAndDrive.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("journey", (string)null);
+                    b.ToTable("Journey", (string)null);
                 });
 
             modelBuilder.Entity("NumAndDrive.Models.Journeys_Users", b =>
@@ -724,7 +802,7 @@ namespace NumAndDrive.Migrations
 
                     b.HasIndex("UserSenderId");
 
-                    b.ToTable("review", (string)null);
+                    b.ToTable("Review", (string)null);
                 });
 
             modelBuilder.Entity("NumAndDrive.Models.Reward", b =>
@@ -749,7 +827,7 @@ namespace NumAndDrive.Migrations
 
                     b.HasKey("RewardId");
 
-                    b.ToTable("reward", (string)null);
+                    b.ToTable("Reward", (string)null);
 
                     b.HasData(
                         new
@@ -817,21 +895,26 @@ namespace NumAndDrive.Migrations
                         new
                         {
                             StatusId = 1,
-                            Type = "Intervenant-e"
+                            Type = "Statut non renseigné"
                         },
                         new
                         {
                             StatusId = 2,
-                            Type = "Administrateur-trice"
+                            Type = "Intervenant-e"
                         },
                         new
                         {
                             StatusId = 3,
-                            Type = "Apprenant-e"
+                            Type = "Administrateur-trice"
                         },
                         new
                         {
                             StatusId = 4,
+                            Type = "Apprenant-e"
+                        },
+                        new
+                        {
+                            StatusId = 5,
                             Type = "Formateur-trice"
                         });
                 });
@@ -959,7 +1042,7 @@ namespace NumAndDrive.Migrations
                         new
                         {
                             UserTypeId = 1,
-                            TypeName = "Mamie au volant"
+                            TypeName = "Nouveau-elle venu-e"
                         },
                         new
                         {
@@ -1009,7 +1092,7 @@ namespace NumAndDrive.Migrations
                         new
                         {
                             UserTypeId = 11,
-                            TypeName = "Nouveau-elle venu-e"
+                            TypeName = "Mamie au volant"
                         });
                 });
 

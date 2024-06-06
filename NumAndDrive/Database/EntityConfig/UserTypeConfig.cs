@@ -31,7 +31,7 @@ namespace NumAndDrive.Database.EntityConfig
 
             // Datas
             modelBuilder.HasData(
-                new UserType { UserTypeId = 1, TypeName = "Mamie au volant" },
+                new UserType { UserTypeId = 1, TypeName = "Nouveau-elle venu-e" },
                 new UserType { UserTypeId = 2, TypeName = "Sébastien Loeb" },
                 new UserType { UserTypeId = 3, TypeName = "Auto-tamponneur" },
                 new UserType { UserTypeId = 4, TypeName = "Boîte de nuit mobile" },
@@ -41,7 +41,8 @@ namespace NumAndDrive.Database.EntityConfig
                 new UserType { UserTypeId = 8, TypeName = "Copilote au top" },
                 new UserType { UserTypeId = 9, TypeName = "Compteur-euse d'histoires" },
                 new UserType { UserTypeId = 10, TypeName = "Ronfleur-euse" },
-                new UserType { UserTypeId = 11, TypeName = "Nouveau-elle venu-e" });
+                new UserType { UserTypeId = 11, TypeName = "Mamie au volant" });
+
         }
     }
 }

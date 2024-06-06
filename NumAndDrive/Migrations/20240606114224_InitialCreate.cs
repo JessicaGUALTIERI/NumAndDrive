@@ -11,7 +11,6 @@ namespace NumAndDrive.Migrations
     /// <inheritdoc />
     public partial class InitialCreate : Migration
     {
-
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,7 +18,7 @@ namespace NumAndDrive.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "activationDay",
+                name: "ActivationDay",
                 columns: table => new
                 {
                     ActivationDayId = table.Column<int>(type: "int", nullable: false)
@@ -30,7 +29,7 @@ namespace NumAndDrive.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_activationDay", x => x.ActivationDayId);
+                    table.PrimaryKey("PK_ActivationDay", x => x.ActivationDayId);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -54,7 +53,7 @@ namespace NumAndDrive.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "company",
+                name: "Company",
                 columns: table => new
                 {
                     CompanyId = table.Column<int>(type: "int", nullable: false)
@@ -64,12 +63,12 @@ namespace NumAndDrive.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_company", x => x.CompanyId);
+                    table.PrimaryKey("PK_Company", x => x.CompanyId);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "filter",
+                name: "Filter",
                 columns: table => new
                 {
                     FilterId = table.Column<int>(type: "int", nullable: false)
@@ -79,7 +78,7 @@ namespace NumAndDrive.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_filter", x => x.FilterId);
+                    table.PrimaryKey("PK_Filter", x => x.FilterId);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -114,7 +113,7 @@ namespace NumAndDrive.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "reward",
+                name: "Reward",
                 columns: table => new
                 {
                     RewardId = table.Column<int>(type: "int", nullable: false)
@@ -128,7 +127,7 @@ namespace NumAndDrive.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_reward", x => x.RewardId);
+                    table.PrimaryKey("PK_Reward", x => x.RewardId);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -188,7 +187,7 @@ namespace NumAndDrive.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "address",
+                name: "Address",
                 columns: table => new
                 {
                     AddressId = table.Column<int>(type: "int", nullable: false)
@@ -204,18 +203,18 @@ namespace NumAndDrive.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_address", x => x.AddressId);
+                    table.PrimaryKey("PK_Address", x => x.AddressId);
                     table.ForeignKey(
-                        name: "FK_address_company_CompanyId",
+                        name: "FK_Address_Company_CompanyId",
                         column: x => x.CompanyId,
-                        principalTable: "company",
+                        principalTable: "Company",
                         principalColumn: "CompanyId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "department",
+                name: "Department",
                 columns: table => new
                 {
                     DepartmentId = table.Column<int>(type: "int", nullable: false)
@@ -227,11 +226,11 @@ namespace NumAndDrive.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_department", x => x.DepartmentId);
+                    table.PrimaryKey("PK_Department", x => x.DepartmentId);
                     table.ForeignKey(
-                        name: "FK_department_company_CompanyId",
+                        name: "FK_Department_Company_CompanyId",
                         column: x => x.CompanyId,
-                        principalTable: "company",
+                        principalTable: "Company",
                         principalColumn: "CompanyId",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -281,6 +280,11 @@ namespace NumAndDrive.Migrations
                 {
                     table.PrimaryKey("PK_User", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_User_Department_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalTable: "Department",
+                        principalColumn: "DepartmentId");
+                    table.ForeignKey(
                         name: "FK_User_Status_StatusId",
                         column: x => x.StatusId,
                         principalTable: "Status",
@@ -290,11 +294,6 @@ namespace NumAndDrive.Migrations
                         column: x => x.UserTypeId,
                         principalTable: "UserType",
                         principalColumn: "UserTypeId");
-                    table.ForeignKey(
-                        name: "FK_User_department_DepartmentId",
-                        column: x => x.DepartmentId,
-                        principalTable: "department",
-                        principalColumn: "DepartmentId");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -401,7 +400,7 @@ namespace NumAndDrive.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "car",
+                name: "Car",
                 columns: table => new
                 {
                     CarId = table.Column<int>(type: "int", nullable: false)
@@ -423,15 +422,15 @@ namespace NumAndDrive.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_car", x => x.CarId);
+                    table.PrimaryKey("PK_Car", x => x.CarId);
                     table.ForeignKey(
-                        name: "FK_car_Fuel_FuelId",
+                        name: "FK_Car_Fuel_FuelId",
                         column: x => x.FuelId,
                         principalTable: "Fuel",
                         principalColumn: "FuelId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_car_User_UserId",
+                        name: "FK_Car_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
@@ -440,7 +439,7 @@ namespace NumAndDrive.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "filters__users",
+                name: "Filters__users",
                 columns: table => new
                 {
                     FilterId = table.Column<int>(type: "int", nullable: false),
@@ -449,24 +448,24 @@ namespace NumAndDrive.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_filters__users", x => new { x.FilterId, x.UserId });
+                    table.PrimaryKey("PK_Filters__users", x => new { x.FilterId, x.UserId });
                     table.ForeignKey(
-                        name: "FK_filters__users_User_UserId",
+                        name: "FK_Filters__users_Filter_FilterId",
+                        column: x => x.FilterId,
+                        principalTable: "Filter",
+                        principalColumn: "FilterId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Filters__users_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_filters__users_filter_FilterId",
-                        column: x => x.FilterId,
-                        principalTable: "filter",
-                        principalColumn: "FilterId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "journey",
+                name: "Journey",
                 columns: table => new
                 {
                     JourneyId = table.Column<int>(type: "int", nullable: false)
@@ -483,24 +482,24 @@ namespace NumAndDrive.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_journey", x => x.JourneyId);
+                    table.PrimaryKey("PK_Journey", x => x.JourneyId);
                     table.ForeignKey(
-                        name: "FK_journey_User_UserId",
+                        name: "FK_Journey_Address_AddressDepartingId",
+                        column: x => x.AddressDepartingId,
+                        principalTable: "Address",
+                        principalColumn: "AddressId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Journey_Address_AddressIncomingId",
+                        column: x => x.AddressIncomingId,
+                        principalTable: "Address",
+                        principalColumn: "AddressId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Journey_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_journey_address_AddressDepartingId",
-                        column: x => x.AddressDepartingId,
-                        principalTable: "address",
-                        principalColumn: "AddressId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_journey_address_AddressIncomingId",
-                        column: x => x.AddressIncomingId,
-                        principalTable: "address",
-                        principalColumn: "AddressId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -568,7 +567,7 @@ namespace NumAndDrive.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "review",
+                name: "Review",
                 columns: table => new
                 {
                     ReviewId = table.Column<int>(type: "int", nullable: false)
@@ -583,15 +582,15 @@ namespace NumAndDrive.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_review", x => x.ReviewId);
+                    table.PrimaryKey("PK_Review", x => x.ReviewId);
                     table.ForeignKey(
-                        name: "FK_review_User_UserReceiverId",
+                        name: "FK_Review_User_UserReceiverId",
                         column: x => x.UserReceiverId,
                         principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_review_User_UserSenderId",
+                        name: "FK_Review_User_UserSenderId",
                         column: x => x.UserSenderId,
                         principalTable: "User",
                         principalColumn: "Id",
@@ -611,22 +610,22 @@ namespace NumAndDrive.Migrations
                 {
                     table.PrimaryKey("PK_Rewards__Users", x => new { x.RewardId, x.UserId });
                     table.ForeignKey(
+                        name: "FK_Rewards__Users_Reward_RewardId",
+                        column: x => x.RewardId,
+                        principalTable: "Reward",
+                        principalColumn: "RewardId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Rewards__Users_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Rewards__Users_reward_RewardId",
-                        column: x => x.RewardId,
-                        principalTable: "reward",
-                        principalColumn: "RewardId",
-                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "activationDays__journeys",
+                name: "ActivationDays__journeys",
                 columns: table => new
                 {
                     ActivationDayId = table.Column<int>(type: "int", nullable: false),
@@ -635,24 +634,24 @@ namespace NumAndDrive.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_activationDays__journeys", x => new { x.JourneyId, x.ActivationDayId });
+                    table.PrimaryKey("PK_ActivationDays__journeys", x => new { x.JourneyId, x.ActivationDayId });
                     table.ForeignKey(
-                        name: "FK_activationDays__journeys_activationDay_ActivationDayId",
+                        name: "FK_ActivationDays__journeys_ActivationDay_ActivationDayId",
                         column: x => x.ActivationDayId,
-                        principalTable: "activationDay",
+                        principalTable: "ActivationDay",
                         principalColumn: "ActivationDayId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_activationDays__journeys_journey_JourneyId",
+                        name: "FK_ActivationDays__journeys_Journey_JourneyId",
                         column: x => x.JourneyId,
-                        principalTable: "journey",
+                        principalTable: "Journey",
                         principalColumn: "JourneyId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "addresses__journeys",
+                name: "Addresses__journeys",
                 columns: table => new
                 {
                     AddressId = table.Column<int>(type: "int", nullable: false),
@@ -660,17 +659,17 @@ namespace NumAndDrive.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_addresses__journeys", x => new { x.AddressId, x.JourneyId });
+                    table.PrimaryKey("PK_Addresses__journeys", x => new { x.AddressId, x.JourneyId });
                     table.ForeignKey(
-                        name: "FK_addresses__journeys_address_AddressId",
+                        name: "FK_Addresses__journeys_Address_AddressId",
                         column: x => x.AddressId,
-                        principalTable: "address",
+                        principalTable: "Address",
                         principalColumn: "AddressId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_addresses__journeys_journey_JourneyId",
+                        name: "FK_Addresses__journeys_Journey_JourneyId",
                         column: x => x.JourneyId,
-                        principalTable: "journey",
+                        principalTable: "Journey",
                         principalColumn: "JourneyId",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -687,15 +686,15 @@ namespace NumAndDrive.Migrations
                 {
                     table.PrimaryKey("PK_Filters__Journeys", x => new { x.FilterId, x.JourneyId });
                     table.ForeignKey(
-                        name: "FK_Filters__Journeys_filter_FilterId",
+                        name: "FK_Filters__Journeys_Filter_FilterId",
                         column: x => x.FilterId,
-                        principalTable: "filter",
+                        principalTable: "Filter",
                         principalColumn: "FilterId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Filters__Journeys_journey_JourneyId",
+                        name: "FK_Filters__Journeys_Journey_JourneyId",
                         column: x => x.JourneyId,
-                        principalTable: "journey",
+                        principalTable: "Journey",
                         principalColumn: "JourneyId",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -713,19 +712,54 @@ namespace NumAndDrive.Migrations
                 {
                     table.PrimaryKey("PK_Journeys__Users", x => new { x.JourneyId, x.UserId });
                     table.ForeignKey(
+                        name: "FK_Journeys__Users_Journey_JourneyId",
+                        column: x => x.JourneyId,
+                        principalTable: "Journey",
+                        principalColumn: "JourneyId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Journeys__Users_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Journeys__Users_journey_JourneyId",
-                        column: x => x.JourneyId,
-                        principalTable: "journey",
-                        principalColumn: "JourneyId",
-                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.InsertData(
+                table: "ActivationDay",
+                columns: new[] { "ActivationDayId", "ArchiveDate", "Day" },
+                values: new object[,]
+                {
+                    { 1, null, "Lundi" },
+                    { 2, null, "Mardi" },
+                    { 3, null, "Mercredi" },
+                    { 4, null, "Jeudi" },
+                    { 5, null, "Vendredi" },
+                    { 6, null, "Samedi" },
+                    { 7, null, "Dimanche" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Company",
+                columns: new[] { "CompanyId", "Name" },
+                values: new object[] { 1, "Metz Numeric School" });
+
+            migrationBuilder.InsertData(
+                table: "Filter",
+                columns: new[] { "FilterId", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Fumeur" },
+                    { 2, "Non fumeur" },
+                    { 3, "Bavard" },
+                    { 4, "Silencieux" },
+                    { 5, "Animaux bienvenus" },
+                    { 6, "Coffre vide" },
+                    { 7, "Coffre plein" },
+                    { 8, "En musique" },
+                    { 9, "Au calme" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Fuel",
@@ -750,70 +784,7 @@ namespace NumAndDrive.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Status",
-                columns: new[] { "StatusId", "Type" },
-                values: new object[,]
-                {
-                    { 1, "Intervenant-e" },
-                    { 2, "Administrateur-trice" },
-                    { 3, "Apprenant-e" },
-                    { 4, "Formateur-trice" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "UserType",
-                columns: new[] { "UserTypeId", "TypeName" },
-                values: new object[,]
-                {
-                    { 1, "Mamie au volant" },
-                    { 2, "Sébastien Loeb" },
-                    { 3, "Auto-tamponneur" },
-                    { 4, "Boîte de nuit mobile" },
-                    { 5, "Grand-e voyageur-euse" },
-                    { 6, "Grand-e bavard-e" },
-                    { 7, "Pas du matin" },
-                    { 8, "Copilote au top" },
-                    { 9, "Compteur-euse d'histoires" },
-                    { 10, "Ronfleur-euse" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "activationDay",
-                columns: new[] { "ActivationDayId", "ArchiveDate", "Day" },
-                values: new object[,]
-                {
-                    { 1, null, "Lundi" },
-                    { 2, null, "Mardi" },
-                    { 3, null, "Mercredi" },
-                    { 4, null, "Jeudi" },
-                    { 5, null, "Vendredi" },
-                    { 6, null, "Samedi" },
-                    { 7, null, "Dimanche" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "company",
-                columns: new[] { "CompanyId", "Name" },
-                values: new object[] { 1, "Metz Numeric School" });
-
-            migrationBuilder.InsertData(
-                table: "filter",
-                columns: new[] { "FilterId", "Name" },
-                values: new object[,]
-                {
-                    { 1, "Fumeur" },
-                    { 2, "Non fumeur" },
-                    { 3, "Bavard" },
-                    { 4, "Silencieux" },
-                    { 5, "Animaux bienvenus" },
-                    { 6, "Coffre vide" },
-                    { 7, "Coffre plein" },
-                    { 8, "En musique" },
-                    { 9, "Au calme" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "reward",
+                table: "Reward",
                 columns: new[] { "RewardId", "Description", "Name", "PicturePath" },
                 values: new object[,]
                 {
@@ -824,28 +795,74 @@ namespace NumAndDrive.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "address",
+                table: "Status",
+                columns: new[] { "StatusId", "Type" },
+                values: new object[,]
+                {
+                    { 1, "Statut non renseigné" },
+                    { 2, "Intervenant-e" },
+                    { 3, "Administrateur-trice" },
+                    { 4, "Apprenant-e" },
+                    { 5, "Formateur-trice" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "UserType",
+                columns: new[] { "UserTypeId", "TypeName" },
+                values: new object[,]
+                {
+                    { 1, "Nouveau-elle venu-e" },
+                    { 2, "Sébastien Loeb" },
+                    { 3, "Auto-tamponneur" },
+                    { 4, "Boîte de nuit mobile" },
+                    { 5, "Grand-e voyageur-euse" },
+                    { 6, "Grand-e bavard-e" },
+                    { 7, "Pas du matin" },
+                    { 8, "Copilote au top" },
+                    { 9, "Compteur-euse d'histoires" },
+                    { 10, "Ronfleur-euse" },
+                    { 11, "Mamie au volant" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Address",
                 columns: new[] { "AddressId", "ArchiveDate", "City", "CompanyId", "PostalAddress", "PostalCode" },
                 values: new object[] { 1, null, "Metz", 1, "86 rue aux arènes", "57000" });
 
             migrationBuilder.InsertData(
-                table: "department",
+                table: "Department",
                 columns: new[] { "DepartmentId", "ArchiveDate", "CompanyId", "Name" },
-                values: new object[] { 1, null, 1, "CDA" });
+                values: new object[,]
+                {
+                    { 1, null, 1, "Service non renseigné" },
+                    { 2, null, 1, "Administration" },
+                    { 3, null, 1, "Équipe pédagogique" },
+                    { 4, null, 1, "CDA" },
+                    { 5, null, 1, "BSD" },
+                    { 6, null, 1, "M2i" },
+                    { 7, null, 1, "DevWeb" },
+                    { 8, null, 1, "DFS" },
+                    { 9, null, 1, "BSRC" },
+                    { 10, null, 1, "TSSR" },
+                    { 11, null, 1, "Incubateur" },
+                    { 12, null, 1, "Num&Boost" },
+                    { 13, null, 1, "MSRC" },
+                    { 14, null, 1, "BSRC" }
+                });
 
             migrationBuilder.CreateIndex(
-                name: "IX_activationDays__journeys_ActivationDayId",
-                table: "activationDays__journeys",
+                name: "IX_ActivationDays__journeys_ActivationDayId",
+                table: "ActivationDays__journeys",
                 column: "ActivationDayId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_address_CompanyId",
-                table: "address",
+                name: "IX_Address_CompanyId",
+                table: "Address",
                 column: "CompanyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_addresses__journeys_JourneyId",
-                table: "addresses__journeys",
+                name: "IX_Addresses__journeys_JourneyId",
+                table: "Addresses__journeys",
                 column: "JourneyId");
 
             migrationBuilder.CreateIndex(
@@ -875,19 +892,19 @@ namespace NumAndDrive.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_car_FuelId",
-                table: "car",
+                name: "IX_Car_FuelId",
+                table: "Car",
                 column: "FuelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_car_UserId",
-                table: "car",
+                name: "IX_Car_UserId",
+                table: "Car",
                 column: "UserId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_department_CompanyId",
-                table: "department",
+                name: "IX_Department_CompanyId",
+                table: "Department",
                 column: "CompanyId");
 
             migrationBuilder.CreateIndex(
@@ -896,23 +913,23 @@ namespace NumAndDrive.Migrations
                 column: "JourneyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_filters__users_UserId",
-                table: "filters__users",
+                name: "IX_Filters__users_UserId",
+                table: "Filters__users",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_journey_AddressDepartingId",
-                table: "journey",
+                name: "IX_Journey_AddressDepartingId",
+                table: "Journey",
                 column: "AddressDepartingId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_journey_AddressIncomingId",
-                table: "journey",
+                name: "IX_Journey_AddressIncomingId",
+                table: "Journey",
                 column: "AddressIncomingId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_journey_UserId",
-                table: "journey",
+                name: "IX_Journey_UserId",
+                table: "Journey",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -936,13 +953,13 @@ namespace NumAndDrive.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_review_UserReceiverId",
-                table: "review",
+                name: "IX_Review_UserReceiverId",
+                table: "Review",
                 column: "UserReceiverId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_review_UserSenderId",
-                table: "review",
+                name: "IX_Review_UserSenderId",
+                table: "Review",
                 column: "UserSenderId");
 
             migrationBuilder.CreateIndex(
@@ -981,10 +998,10 @@ namespace NumAndDrive.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "activationDays__journeys");
+                name: "ActivationDays__journeys");
 
             migrationBuilder.DropTable(
-                name: "addresses__journeys");
+                name: "Addresses__journeys");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -1002,13 +1019,13 @@ namespace NumAndDrive.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "car");
+                name: "Car");
 
             migrationBuilder.DropTable(
                 name: "Filters__Journeys");
 
             migrationBuilder.DropTable(
-                name: "filters__users");
+                name: "Filters__users");
 
             migrationBuilder.DropTable(
                 name: "Journeys__Users");
@@ -1020,13 +1037,13 @@ namespace NumAndDrive.Migrations
                 name: "Notifications__Users");
 
             migrationBuilder.DropTable(
-                name: "review");
+                name: "Review");
 
             migrationBuilder.DropTable(
                 name: "Rewards__Users");
 
             migrationBuilder.DropTable(
-                name: "activationDay");
+                name: "ActivationDay");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -1035,22 +1052,25 @@ namespace NumAndDrive.Migrations
                 name: "Fuel");
 
             migrationBuilder.DropTable(
-                name: "filter");
+                name: "Filter");
 
             migrationBuilder.DropTable(
-                name: "journey");
+                name: "Journey");
 
             migrationBuilder.DropTable(
                 name: "Notification");
 
             migrationBuilder.DropTable(
-                name: "reward");
+                name: "Reward");
+
+            migrationBuilder.DropTable(
+                name: "Address");
 
             migrationBuilder.DropTable(
                 name: "User");
 
             migrationBuilder.DropTable(
-                name: "address");
+                name: "Department");
 
             migrationBuilder.DropTable(
                 name: "Status");
@@ -1059,10 +1079,7 @@ namespace NumAndDrive.Migrations
                 name: "UserType");
 
             migrationBuilder.DropTable(
-                name: "department");
-
-            migrationBuilder.DropTable(
-                name: "company");
+                name: "Company");
         }
     }
 }

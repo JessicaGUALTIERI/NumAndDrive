@@ -26,10 +26,12 @@ namespace NumAndDrive.Database.EntityConfig
 
             // Datas
             modelBuilder.HasData(
-                new Status { StatusId = 1, Type = "Intervenant-e" },
-                new Status { StatusId = 2, Type = "Administrateur-trice" },
-                new Status { StatusId = 3, Type = "Apprenant-e" },
-                new Status { StatusId = 4, Type = "Formateur-trice" });
+                new Status { StatusId = 1, Type = "Statut non renseigné" },
+                new Status { StatusId = 2, Type = "Intervenant-e" },
+                new Status { StatusId = 3, Type = "Administrateur-trice" },
+                new Status { StatusId = 4, Type = "Apprenant-e" },
+                new Status { StatusId = 5, Type = "Formateur-trice" }
+                );
         }
     }
 }
