@@ -1,31 +1,54 @@
 ﻿@using NumAndDrive.Models
 @model IEnumerable<Journey>
-    <style>
-        .scrollable-container {
-            height: 400px; 
-            overflow-y: scroll;
-            border: 1px solid #ccc;
-        }
+<style>
+    .scrollable-container {
+        height: 400px;
+        overflow-y: scroll;
+        border: 1px solid #ccc;
+    }
 
-        .information-block {
-            border: 1px solid #ddd;
-            padding: 10px;
-        }
-
-    </style>
-        <div class="col-3 scrollable-container">
-            @foreach (var journey in Model)
-            {
-                <div class="information-block">
-                    <div class="row">
-                        <p class="col-6">@journey.AddressDeparting.City > @journey.AddressIncoming.Company.Name</p>
-                        <p class="col-6">@journey.User.FirstName</p>
-                    </div>
-                    <div class="row">
-                        <p>Le @journey.DepartureDate, à @journey.DepartureHour</p>
-                    </div>
+    .information-block {
+        border: 1px solid #ddd;
+        padding: 10px;
+    }
+</style>
+    <div class="col-3 scrollable-container" id="journeyList">
+        @foreach (var journey in Model)
+        {
+            <div class="information-block" style="cursor:pointer;" id="journey" data-id="@journey.JourneyId">
+                <div class="row">
+                    <p class="col-6">@journey.AddressDeparting.City > @journey.AddressIncoming.Company.Name</p>
+                    <p class="col-6">@journey.User.FirstName</p>
                 </div>
-            }
-        </div>
+                <div class="row">
+                    <p>Le @journey.DepartureDate, à @journey.DepartureHour</p>
+                </div>
+            </div>
 
+        }
+    </div>
+        <div class="col-9" id="JourneyDetails">
+    </div>
 
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#journeyList').on('click', 'information-block', function() {
+                var journeyId = $(this).data('id');
+
+                $.ajax({
+                    url: '@Url.Action("GetJourneysDetails", "Journey")',
+                    type: 'GET',
+                    data: { id: itemId },
+                    success: function(result) {
+                        $('#JourneyDetails').html(result);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Erreur lors de la récupération des détails:', error);
+                    }
+                });
+            });
+        });
+    </script>
+}

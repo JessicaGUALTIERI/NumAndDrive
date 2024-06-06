@@ -98,6 +98,13 @@ namespace NumAndDrive.Controllers
                 
             return View(journeys);
         }
+
+        public IActionResult GetJourneysDetails(int id)
+        {
+            var journey = Db.Journeys.Find(id);
+            return PartialView("_JourneyDetails", journey);
+
+        }
     }
 }
 
