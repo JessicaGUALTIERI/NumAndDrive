@@ -25,5 +25,10 @@ public class HomeController : Controller
         var user = Db.Users.ToList();
         return View(user);
     }
+
+    public IActionResult PolitiqueConfidentialite()
+    {
+        return View();
+    }
 }
 
