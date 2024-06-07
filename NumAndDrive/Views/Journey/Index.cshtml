@@ -1,6 +1,92 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-
+﻿<div class="container">
+    <div class="row d-flex justify-content-center align-items-center">
+        <div class="col-5 vh-60 border border-dark overflow-hidden custom-bottom-shadow">
+            <div class="row vh-60">
+                <table class="vh-60">
+                    <thead class="vh-7 custom-color-blue text-custom-color-orange text-center">
+                        <tr>
+                            <th colspan="2" class="text-uppercase">Uckange > Metz</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-bottom border-black">
+                            <td class="border-end border-black p-2 text-center">Lundi 07h30 > 08h15</td>
+                            <td class="p-2 text-center">Réservations <span class="text-custom-color-orange">></span></td>
+                        </tr>
+                        <tr class="border-bottom border-black">
+                            <td class="border-end border-black p-2 text-center">Mardi 07h30 > 08h15</td>
+                            <td class="p-2 text-center">Réservations <span class="text-custom-color-orange">></span></td>
+                        </tr>
+                        <tr class="border-bottom border-black">
+                            <td class="border-end border-black p-2 text-center">Mercredi 07h30 > 08h15</td>
+                            <td class="p-2 text-center">Réservations <span class="text-custom-color-orange">></span></td>
+                        </tr>
+                        <tr class="border-bottom border-black">
+                            <td class="border-end border-black p-2 text-center">Jeudi 07h30 > 08h15</td>
+                            <td class="p-2 text-center">Réservations <span class="text-custom-color-orange">></span></td>
+                        </tr>
+                        <tr class="border-bottom border-black">
+                            <td class="border-end border-black p-2 text-center">Vendredi 07h30 > 08h15</td>
+                            <td class="p-2 text-center">Réservations <span class="text-custom-color-orange">></span></td>
+                        </tr>
+                        <tr class="border-bottom border-black">
+                            <td class="border-end border-black p-2 text-center">Samedi</td>
+                            <td class="p-2 text-center">Activer <span class="text-custom-color-orange">></span></td>
+                        </tr>
+                        <tr class="border-bottom border-black">
+                            <td class="border-end border-black p-2 text-center">Dimanche</td>
+                            <td class="p-2 text-center">Activer <span class="text-custom-color-orange">></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>            
+        </div>
+        <div class="col-2"></div>
+        <div class="col-5 vh-60 border border-dark overflow-hidden custom-bottom-shadow">
+            <div class="row vh-60">
+                <table class="vh-60">
+                    <thead class="vh-7 custom-color-blue text-custom-color-orange text-center">
+                        <tr>
+                            <th colspan="2" class="text-uppercase">Metz > Uckange</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-bottom border-black">
+                            <td class="border-end border-black p-2 text-center">Lundi 17h15 > 18h00</td>
+                            <td class="p-2 text-center">Réservations <span class="text-custom-color-orange">></span></td>
+                        </tr>
+                        <tr class="border-bottom border-black">
+                            <td class="border-end border-black p-2 text-center">Mardi 17h15 > 18h00</td>
+                            <td class="p-2 text-center">Réservations <span class="text-custom-color-orange">></span></td>
+                        </tr>
+                        <tr class="border-bottom border-black">
+                            <td class="border-end border-black p-2 text-center">Mercredi 17h15 > 18h00</td>
+                            <td class="p-2 text-center">Réservations <span class="text-custom-color-orange">></span></td>
+                        </tr>
+                        <tr class="border-bottom border-black">
+                            <td class="border-end border-black p-2 text-center">Jeudi 17h15 > 18h00</td>
+                            <td class="p-2 text-center">Réservations <span class="text-custom-color-orange">></span></td>
+                        </tr>
+                        <tr class="border-bottom border-black">
+                            <td class="border-end border-black p-2 text-center">Vendredi 17h15 > 18h00</td>
+                            <td class="p-2 text-center">Réservations <span class="text-custom-color-orange">></span></td>
+                        </tr>
+                        <tr class="border-bottom border-black">
+                            <td class="border-end border-black p-2 text-center">Samedi</td>
+                            <td class="p-2 text-center">Activer <span class="text-custom-color-orange">></span></td>
+                        </tr>
+                        <tr class="border-bottom border-black">
+                            <td class="border-end border-black p-2 text-center">Dimanche</td>
+                            <td class="p-2 text-center">Activer <span class="text-custom-color-orange">></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-center align-items-center mt-5">
+        <div class="col-6">
+            <a asp-controller="Journey" asp-action="Add" class="btn text-custom-color-blue custom-bottom-shadow fs-1 border border-dark">Ajouter une nouvelle annonce</a>
+        </div>
+    </div>
+</div>
