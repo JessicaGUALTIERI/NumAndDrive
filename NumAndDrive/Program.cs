@@ -84,7 +84,7 @@ using (var scope = app.Services.CreateScope())
             PhoneNumber = "0707070707",
             StatusId = 1,
             DepartmentId = 1,
-            UserTypeId = 11,
+            UserTypeId = 1,
             ProfilePicturePath = "/img/profile-pic-blue.png",
             UserName = mail,
         };

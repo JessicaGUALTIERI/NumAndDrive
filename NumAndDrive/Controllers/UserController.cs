@@ -44,6 +44,7 @@ namespace NumAndDrive.Controllers
 
             List<Journey> journeys = _db.Journeys
                 .Include(x => x.AddressDeparting)
+                .Include(x => x.AddressIncoming)
                 .Where(x => x.UserId == id)
                 .ToList();
 
@@ -55,7 +56,7 @@ namespace NumAndDrive.Controllers
 
             List<Journey> journeysToCome = journeys.Where(x => (x.DepartureDate == today && x.DepartureHour > now) || (x.DepartureDate > today))
                 .ToList();
-                      
+
             ProfileUserViewModel profileUser = new ProfileUserViewModel
             {
                 LastName = user.LastName,

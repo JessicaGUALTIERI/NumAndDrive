@@ -1,54 +1,155 @@
 ﻿@using NumAndDrive.Models
 @model IEnumerable<Journey>
-<style>
-    .scrollable-container {
-        height: 400px;
-        overflow-y: scroll;
-        border: 1px solid #ccc;
-    }
 
-    .information-block {
-        border: 1px solid #ddd;
-        padding: 10px;
-    }
-</style>
-    <div class="col-3 scrollable-container" id="journeyList">
-        @foreach (var journey in Model)
-        {
-            <div class="information-block" style="cursor:pointer;" id="journey" data-id="@journey.JourneyId">
-                <div class="row">
-                    <p class="col-6">@journey.AddressDeparting.City > @journey.AddressIncoming.Company.Name</p>
-                    <p class="col-6">@journey.User.FirstName</p>
+@if (Model != null)
+{
+    <div class="container">
+        <div class="row vh-10 border-black border border-bottom-0 rounded-top">
+            <div class="row d-flex align-items-center">
+                <p class="fs-3 m-0">Résultats de votre recherche :</p>
+            </div>
+            <div class="row d-flex align-items-center">
+                <div class="col-9">
+                    <div class="row">
+                        <div class="col-3">
+                            <p class="fs-3 m-0">Uckange > Metz</p>
+                        </div>
+                        <div class="col-1">
+                            <p class="fs-3 m-0">|</p>
+                        </div>
+                        <div class="col-3">
+                            <p class="fs-3 m-0">10/06/2024</p>
+                        </div>
+                        <div class="col-1">
+                            <p class="fs-3 m-0">|</p>
+                        </div>
+                        <div class="col-3">
+                            <p class="fs-3 m-0">07h00 > 08h00</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="row">
-                    <p>Le @journey.DepartureDate, à @journey.DepartureHour</p>
+                <div class="col-3 text-end">
+                    <a href="#" class="text-custom-color-orange">Modifier la recherche</a>
                 </div>
             </div>
-
-        }
+        </div>
+        <div class="row vh-70 border border-black rounded-bottom custom-bottom-shadow overflow-hidden">
+            <div class="col-3 vh-70 border-end border-black p-0 overflow-auto">
+                @foreach (var journey in Model)
+                {
+                    <a asp-controller="user" asp-action="index" class="text-decoration-none text-black">
+                        <div class="row vh-15 border-bottom border-black p-2 d-flex align-items-center">
+                            <div class="col-5 gap-2">
+                                <div class="row mb-4">
+                                    <p class="m-0">@journey.AddressDeparting.City > @journey.AddressIncoming.City</p>
+                                </div>
+                                <div class="row">
+                                    <p class="m-0">@journey.DepartureHour > @journey.DepartureHour</p>
+                                </div>
+                            </div>
+                            <div class="col-2 d-flex align-items-center">
+                                <img class="vh-5 border border-black rounded-circle p-1" src="@journey.User.ProfilePicturePath" alt="Photo de profil" />
+                            </div>
+                            <div class="col-5">
+                                <div class="row mb-4">
+                                    <p class="m-0 text-center">@journey.User.FirstName @journey.User.LastName[0].</p>
+                                </div>
+                                <div class="row">
+                                    <img class="col" src="/img/basic-notation.png" alt="Notes" />
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                }
+            </div>
+            <div class="col-9 d-flex flex-column justify-content-center">
+                <div class="row mt-3">
+                    <p class="text-center fs-2">Uckange > Metz</p>
+                </div>
+                <div class="row">
+                    <p class="text-center fs-2">16h30 > 16h30</p>
+                </div>
+                <div class="row">
+                    <div class="col mx-4">
+                        <table class="table table-bordered border-dark fs-3 text-center">
+                            <thead>
+                                <tr>
+                                    <th>L</th>
+                                    <th>M</th>
+                                    <th>M</th>
+                                    <th>J</th>
+                                    <th>V</th>
+                                    <th>S</th>
+                                    <th>D</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>X</td>
+                                    <td>X</td>
+                                    <td>X</td>
+                                    <td>X</td>
+                                    <td>X</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row my-2 d-flex justify-content-around">
+                    <div class="col-2">
+                        <div class="border rounded-circle border-black d-flex align-items-center vh-10 justify-content-center text-center custom-bottom-shadow">
+                            <p class="m-0">Animaux bienvenus</p>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="border rounded-circle border-black d-flex align-items-center vh-10 justify-content-center text-center custom-bottom-shadow">
+                            <p class="m-0">Coffre plein</p>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="border rounded-circle border-black d-flex align-items-center vh-10 justify-content-center text-center custom-bottom-shadow">
+                            <p class="m-0">Bavard</p>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="border rounded-circle border-black d-flex align-items-center vh-10 justify-content-center text-center custom-bottom-shadow">
+                            <p class="m-0">Musique</p>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="border rounded-circle border-black d-flex align-items-center vh-10 justify-content-center text-center custom-bottom-shadow">
+                            <p class="m-0">Non fumeur</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-5 mb-2">
+                    <div class="col-7 d-flex justify-content-center align-items-center">
+                        <p class="fs-1 m-0">Reste 1 place</p>
+                    </div>
+                    <div class="col-5">
+                        <div class="row vh-5 d-flex justify-content-end">
+                            <div class="col-8 border border-dark text-custom-color-blue custom-bottom-shadow fw-bold d-flex justify-content-center text-center align-items-center mb-1 me-2">
+                                <a class="nav-link active" aria-current="page" asp-controller="" asp-action="">Contacter Marie D.</a>
+                            </div>
+                        </div>
+                        <div class="row vh-5 d-flex justify-content-end">
+                            <div class="col-8 border border-dark text-custom-color-blue custom-bottom-shadow fw-bold d-flex justify-content-center text-center align-items-center mb-1 me-2">
+                                <a class="nav-link active" aria-current="page" asp-controller="" asp-action="">Voir le profil de Marie D.</a>
+                            </div>
+                        </div>
+                        <div class="row vh-5 d-flex justify-content-end">
+                            <div class="col-8 border border-dark custom-color-blue text-custom-color-orange custom-bottom-shadow fw-bold d-flex justify-content-center text-center align-items-center mb-1 me-2">
+                                <a class="nav-link active" aria-current="page" asp-controller="" asp-action="">Réserver ma place</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-        <div class="col-9" id="JourneyDetails">
-    </div>
-
-@section Scripts {
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#journeyList').on('click', 'information-block', function() {
-                var journeyId = $(this).data('id');
-
-                $.ajax({
-                    url: '@Url.Action("GetJourneysDetails", "Journey")',
-                    type: 'GET',
-                    data: { id: itemId },
-                    success: function(result) {
-                        $('#JourneyDetails').html(result);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Erreur lors de la récupération des détails:', error);
-                    }
-                });
-            });
-        });
-    </script>
 }
+
+
+

@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Num&Drive</title>
-    <link rel="icon" href="../favicon.png"/>
+    <link rel="icon" href="../favicon.png" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
@@ -35,12 +35,6 @@
                             }
 
                         }
-                        @if (currentController == "User" && currentAction == "Index")
-                        {
-                            <a class="nav-link active" aria-current="page" asp-controller="User" asp-action="Settings">
-                                <img src="/img/settings-icon.png" alt="Réglages" class="vh-5" />
-                            </a>
-                        }
 
                         @if (!(currentController == "Messages" && currentAction == "Index"))
                         {
@@ -58,6 +52,13 @@
                             <div class="border border-dark text-custom-color-blue custom-bottom-shadow fw-bold d-flex justify-content-center text-center align-items-center">
                                 <a class="nav-link active" aria-current="page" asp-controller="user" asp-action="index">Accéder à mon profil</a>
                             </div>
+                        }
+
+                        @if (currentController == "User" && currentAction == "Index")
+                        {
+                            <a class="nav-link active" aria-current="page" asp-controller="User" asp-action="Settings">
+                                <img src="/img/settings-icon.png" alt="Réglages" class="vh-5" />
+                            </a>
                         }
 
 
