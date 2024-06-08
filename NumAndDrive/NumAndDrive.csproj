@@ -34,6 +34,7 @@
     <None Remove="Areas\" />
     <None Remove="Areas\Admin\" />
     <None Remove="Areas\Users\" />
+    <None Remove="Validation\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Database\" />
@@ -47,5 +48,6 @@
     <Folder Include="Areas\" />
     <Folder Include="Areas\Admin\" />
     <Folder Include="Areas\Users\" />
+    <Folder Include="Validation\" />
   </ItemGroup>
 </Project>

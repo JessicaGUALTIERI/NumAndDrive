@@ -99,9 +99,45 @@ namespace NumAndDrive.Controllers
             return View(journeys);
         }
 
-        public IActionResult GetJourneysDetails(int id)
+        [HttpPost]
+        public IActionResult BookJourney(int journeyId)
         {
-            var journey = Db.Journeys.Find(id);
+            Journey journey = Db.Journeys.Find(journeyId);
+
+            Journeys_Users journeys_Users = new Journeys_Users()
+            {
+                UserId = UserManager.GetUserId(User),
+                JourneyId = journeyId
+            };
+
+            journey.AvailableSpots--;
+            Db.Journeys_Users.Add(journeys_Users);
+            Db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        public IActionResult JourneyDetails(int journeyId)
+        {
+            var journey = Db.Journeys.
+                Where(x => x.JourneyId == journeyId)
+                .Include(j => j.User)
+                .Include(j => j.AddressDeparting)
+                .Include(j => j.AddressIncoming)
+                .ThenInclude(j => j.Company)
+                .Select(j => new JourneyCompanyViewModel
+                {
+                    JourneyId = j.JourneyId,
+                    UserFirstName = j.User.FirstName,
+                    UserLastName = j.User.LastName,
+                    AddressDeparting = j.AddressDeparting.City,
+                    AddressIncoming = j.AddressIncoming.Company.Name,
+                    DepartureDate = j.DepartureDate,
+                    DepartureHour = j.DepartureHour,
+                    AvailableSpots = j.AvailableSpots,
+                })
+                .FirstOrDefault();
+
             return PartialView("_JourneyDetails", journey);
 
         }
