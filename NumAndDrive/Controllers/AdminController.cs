@@ -41,6 +41,14 @@ namespace NumAndDrive.Controllers
             return View(users);
         }
 
+        [HttpPost]
+        public IActionResult GetUsersByName(string searchString)
+        {
+            Console.WriteLine(searchString);
+            var user = Db.Users.Where(x => x.FirstName.ToLower().Contains(searchString.ToLower()) || x.LastName.ToLower().Contains(searchString.ToLower()));
+            return View(user.ToList());
+        }
+
         public IActionResult Details(string id)
         {
             User user = Db.Users.Find(id);

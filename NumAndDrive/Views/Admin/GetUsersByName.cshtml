@@ -1,12 +1,8 @@
 ﻿@using NumAndDrive.Models;
-
 @model List<User>
+
 <a asp-controller="admin" asp-action="index" class="btn custom-color-orange text-white custom-bottom-shadow">Retour</a>
 
-<form asp-controller="admin" asp-action="GetUsersByName" class="mt-3">
-    <input type="text" name="searchString" placeholder="Rechercher"/>
-    <input class="btn custom-color-orange text-white custom-bottom-shadow" type="submit" value="Rechercher" />
-</form>
 
 <h2 class="m-5">Utilisateurs</h2>
 
