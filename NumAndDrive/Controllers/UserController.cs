@@ -75,6 +75,11 @@ namespace NumAndDrive.Controllers
         {
             return View();
         }
+
+        public IActionResult ChangePassword()
+        {
+            return PartialView("_Settings");
+        }
     }
 }
 

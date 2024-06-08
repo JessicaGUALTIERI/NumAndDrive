@@ -52,9 +52,13 @@ namespace NumAndDrive.Controllers
                     string userId = _userManager.GetUserId(User);
                     var user = Db.Users.Find(userId);
                     if (user.IsFirstLogin == 0)
-                    { 
-                        Db.SaveChanges();
-                        return View("FirstLogin");
+                    {
+                        FirstLoginViewModel changePasswordViewModel = new FirstLoginViewModel()
+                        {
+                            Statuses = Db.Statuses,
+                            Departments = Db.Departments
+                        };
+                        return View("FirstLogin", changePasswordViewModel);
                     }
                     return LocalRedirect(returnUrl ?? Url.Action("Index", "Home"));
                 }
@@ -69,7 +73,7 @@ namespace NumAndDrive.Controllers
         [HttpGet]
         public IActionResult FirstLogin()
         {
-            ChangePasswordViewModel changePasswordViewModel = new ChangePasswordViewModel()
+            FirstLoginViewModel changePasswordViewModel = new FirstLoginViewModel()
             {
                 Statuses = Db.Statuses,
                 Departments = Db.Departments
@@ -79,24 +83,46 @@ namespace NumAndDrive.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> FirstLogin(ChangePasswordViewModel change)
+        public async Task<IActionResult> FirstLogin(FirstLoginViewModel change)
         {
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(User);
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-                _userManager.ResetPasswordAsync(user, token, change.NewPassword);
+                await _userManager.ResetPasswordAsync(user, token, change.NewPassword);
 
 
                 user.IsFirstLogin = 1;
-                Db.SaveChanges();
-                _userManager.UpdateAsync(user);
-                _signInManager.RefreshSignInAsync(user);
+                user.StatusId = change.StatusId;
+                user.DepartmentId = change.DepartmentId;
+                await _userManager.UpdateAsync(user);
+                await _signInManager.RefreshSignInAsync(user);
                 return RedirectToAction("Index", "Home");
             }
 
             return View("FirstLogin");
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel change)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                await _userManager.ResetPasswordAsync(user, token, change.NewPassword);
+
+                await _userManager.UpdateAsync(user);
+                await _signInManager.RefreshSignInAsync(user);
+
+                return RedirectToAction("Settings", "User");
+
+            }
+
+            return RedirectToAction("Settings", "User");
 
         }
 
@@ -106,5 +132,6 @@ namespace NumAndDrive.Controllers
             return RedirectToAction("Index", "Home");
         }
     }
+    
 }
 

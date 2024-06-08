@@ -1,9 +1,9 @@
 ﻿
 <div class="container">
     <a asp-controller="User" asp-action="Index" class="col-1">
-        <img src="/img/exit-icon.png" alt="Retour" class="custom-top-left-position vh-5"/>
+        <img src="/img/exit-icon.png" alt="Retour" class="custom-top-left-position vh-5" />
     </a>
-    <div class="row vh-75">
+    <div class="row vh-75" id="settings">
         <div class="col-4 border rounded-start border-dark border-end-0 custom-bottom-shadow">
             <div class="row h-33 d-flex text-center align-items-center border-bottom border-dark px-4">
                 <div class="col-11">
@@ -15,7 +15,7 @@
                     </svg>
                 </div>
             </div>
-            <div class="row h-33 d-flex text-center align-items-center border-bottom border-dark px-4">
+            <div  class="ploup row h-33 d-flex text-center align-items-center border-bottom border-dark px-4" >
                 <div class="col-11">
                     <p class="fs-4 m-0">Mes informations</p>
                 </div>
@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="col-8 border rounded-end border-dark custom-bottom-shadow">
-            <partial name="_Settings"></partial>
+            <div id="setPassword"></div>
             <div class="h-100 d-flex justify-content-end align-items-end">
                 <a asp-controller="User" asp-action="Index" class="col-1">
                     @*Link is not the correct one*@
@@ -47,3 +47,13 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+    $(document).ready(function(){
+        $('#settings .ploup').click(function() {
+            $("#setPassword").load("@Url.Action("ChangePassword", "User")");
+        });
+    });
+    </script>
+}

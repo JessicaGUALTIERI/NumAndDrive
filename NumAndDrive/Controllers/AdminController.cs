@@ -114,7 +114,7 @@ namespace NumAndDrive.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-            public IActionResult CreateSingleUser()
+        public IActionResult CreateSingleUser()
         {
             CreateUserViewModel createSingleUserViewModel = new CreateUserViewModel
             {
