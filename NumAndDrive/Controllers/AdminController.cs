@@ -150,10 +150,9 @@ namespace NumAndDrive.Controllers
                     ProfilePicturePath = "/img/profile-pic-blue.png",
                     UserName = userViewModel.Email
                 };
-                await _userManager.CreateAsync(user, "Administrator!1");
+                string password = _adminRepository.PasswordGenerator();
+                await _userManager.CreateAsync(user, password);
                 await _userManager.AddToRoleAsync(user, "User");
-                //Placeholder pour le mdp que j'utilise'
-                //Administrator!1
                 return RedirectToAction(nameof(Index));
             }
             userViewModel.Statuses = Db.Statuses.ToList();
