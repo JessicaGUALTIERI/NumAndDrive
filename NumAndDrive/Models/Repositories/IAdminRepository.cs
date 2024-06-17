@@ -19,6 +19,7 @@ namespace NumAndDrive.Models.Repositories
         List<Status> GetStatuses();
         List<Department> GetDepartments();
         Task EditUser(EditUserViewModel newValues, User user);
+        byte[] GetCSVFile();
     }
 }
 

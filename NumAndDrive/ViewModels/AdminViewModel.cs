@@ -4,16 +4,18 @@ using System.Security.Cryptography;
 using Microsoft.AspNetCore.Identity;
 using MySqlConnector;
 using NumAndDrive.Database;
+using NumAndDrive.Models;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
-namespace NumAndDrive.Models
+namespace NumAndDrive.ViewModels
 {
-	public class Admin
+	public class AdminViewModel
 	{
 		[Required]
         public IFormFile File { get; set; }
         public NumAndDriveDbContext Db { get; set; }
         public UserManager<User> _userManager;
+        public int NumberOfUsers { get; set; }
     }
 }
 

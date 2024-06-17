@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using NumAndDrive.Models;
 using NumAndDrive.Models.Repositories;
@@ -110,6 +111,12 @@ namespace NumAndDrive.Controllers
             userViewModel.Statuses = _adminRepository.GetStatuses();
             userViewModel.Departments = _adminRepository.GetDepartments();
             return View(userViewModel);
+        }
+
+        public IActionResult DownloadCsv()
+        {
+            var bytes = _adminRepository.GetCSVFile();
+            return File(bytes, "application/octet-stream", "users_not_created.csv");
         }
     }
 }

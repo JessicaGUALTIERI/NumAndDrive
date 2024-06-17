@@ -25,6 +25,14 @@ namespace NumAndDrive.Models.Repositories
 
         }
 
+        public byte[] GetCSVFile()
+        {
+            string webRootPath = _webHostEnvironment.WebRootPath;
+            string filePath = Path.Combine(webRootPath, "users_not_created.csv");
+
+            return System.IO.File.ReadAllBytes(filePath);
+        }
+
         /// <summary>
         /// Go through database to list all users.
         /// </summary>
