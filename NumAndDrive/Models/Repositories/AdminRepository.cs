@@ -11,12 +11,14 @@ namespace NumAndDrive.Models.Repositories
 	public class AdminRepository : IAdminRepository
 	{
         private readonly NumAndDriveDbContext? _db;
-        private readonly UserManager<User>? _userManager;
+        private readonly UserManager<User> _userManager;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public AdminRepository(NumAndDriveDbContext db, UserManager<User> userManager)
+        public AdminRepository(NumAndDriveDbContext db, UserManager<User> userManager, IWebHostEnvironment webHostEnvironment)
         {
             _db = db;
             _userManager = userManager;
+            _webHostEnvironment = webHostEnvironment;
         }
         public AdminRepository()
         {
@@ -24,19 +26,148 @@ namespace NumAndDrive.Models.Repositories
         }
 
         /// <summary>
+        /// Go through database to list all users.
+        /// </summary>
+        /// <returns>A list of users</returns>
+        public List<User> GetUsers()
+        {
+            return _db.Users.Where(x => x.ArchiveDate == null).ToList();
+        }
+
+        /// <summary>
+        /// Go through database to lit all users according to the given name.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>A list of users matching the given name</returns>
+        public List<User> GetUsersByName(string name)
+        {
+            return _db.Users.Where(x => x.FirstName.ToLower().Contains(name.ToLower()) || x.LastName.ToLower().Contains(name.ToLower())).ToList();
+        }
+
+        /// <summary>
+        /// Go through database to count of many users are registered.
+        /// </summary>
+        /// <returns>The number of registered users</returns>
+        public int GetNumberOfUsersInDatabase()
+        {
+            return _db.Users.Count();
+        }
+
+        /// <summary>
+        /// Go through database to find the user matching the given id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>The user and their details</returns>
+        public User GetUserDetails(string id)
+        {
+            return _db.Users.Find(id);
+        }
+
+        /// <summary>
+        /// Go through database to find the user matching the given id. All their informations are then edited to be anonymous and the archive date is added.
+        /// </summary>
+        /// <param name="user"></param>
+        public async Task ArchiveUser(User user)
+        {
+            user.FirstName = "utilisateur";
+            user.LastName = "utilisateur";
+            user.Email = null;
+            user.NormalizedEmail = null;
+            user.PhoneNumber = null;
+            user.Email = null;
+            user.UserName = "utilisateur";
+            user.NormalizedUserName = "UTILISATEUR";
+
+            user.ArchiveDate = DateOnly.FromDateTime(DateTime.UtcNow);
+            _db.SaveChanges();
+        }
+
+        /// <summary>
+        /// Create a user in database based on the information given through the view model
+        /// </summary>
+        /// <param name="userViewModel"></param>
+        public async Task CreateSingleUser(CreateUserViewModel userViewModel)
+        {
+            User user = new User
+            {
+                LastName = userViewModel.LastName,
+                FirstName = userViewModel.FirstName,
+                Email = userViewModel.Email,
+                PhoneNumber = userViewModel.PhoneNumber,
+                StatusId = userViewModel.StatusId,
+                DepartmentId = userViewModel.DepartmentId,
+                UserTypeId = 11,
+                ProfilePicturePath = "/img/profile-pic-blue.png",
+                UserName = userViewModel.Email
+            };
+            string password = PasswordGenerator();
+            await _userManager.CreateAsync(user, password);
+            await _userManager.AddToRoleAsync(user, "User");
+            _db.SaveChanges();
+        }
+
+        /// <summary>
+        /// Go through database to find all the statuses
+        /// </summary>
+        /// <returns>A list of all statuses</returns>
+        public List<Status> GetStatuses()
+        {
+            return _db.Statuses.ToList();
+        }
+
+        /// <summary>
+        /// Go through database to find all the departments
+        /// </summary>
+        /// <returns>A list of all departments</returns>
+        public List<Department> GetDepartments()
+        {
+            return _db.Departments.ToList();
+        }
+
+        /// <summary>
+        /// Go through the database to find the user who needs to be edited, then edit the datas according to the given view model
+        /// </summary>
+        /// <param name="newValues"></param>
+        /// <param name="oldUser"></param>
+        public async Task EditUser(EditUserViewModel newValues, User oldUser)
+        {
+            oldUser.LastName = newValues.LastName;
+            oldUser.FirstName = newValues.FirstName;
+            oldUser.PhoneNumber = newValues.PhoneNumber;
+            _db.SaveChanges();
+        }
+
+        /// <summary>
+        /// Write in a CSV file all users' emails when they are not added in database
+        /// </summary>
+        /// <param name="sw"></param>
+        /// <param name="mail"></param>
+        public void WriteFileForNotCreatedUser(StreamWriter sw, string mail)
+        {
+            sw.WriteLine(mail);
+        }
+
+        /// <summary>
         /// Upload users from a CSV file injected through a form. All datas of each user is checked to be valid before being uploaded to database. Also, each user's username is checked to be unique before being uploaded to database.
         /// </summary>
         /// <param name="admin"></param>
         /// <returns>Async task</returns>
-        public async Task UploadUsersFromCSVFile(Admin admin)
+        public async Task UploadUsersFromCSVFile(AdminViewModel admin)
         {
             string folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"../../wwwroot/data/");
             string filePath = folderPath + admin.File.FileName;
             CreateFolder(folderPath);
             CreateFile(filePath, admin);
-            List<User> usersToAdd = ReadCSVFile(filePath);
+
+            string webRootPath = _webHostEnvironment.WebRootPath;
+            string path = Path.Combine(webRootPath, "users_not_created.csv");
+            StreamWriter streamWriter = new StreamWriter(path);
+            List<User> usersToAdd = ReadCSVFile(streamWriter, filePath);
+
             DeleteFolder(folderPath);
-            await UploadUsers(usersToAdd);
+            await UploadUsers(streamWriter, usersToAdd);
+
+            streamWriter.Close();
         }
 
         /// <summary>
@@ -64,7 +195,7 @@ namespace NumAndDrive.Models.Repositories
         /// </summary>
         /// <param name="path"></param>
         /// <param name="admin"></param>
-        public void CreateFile(string path, Admin admin)
+        public void CreateFile(string path, AdminViewModel admin)
         {
             using (var stream = new FileStream(path, FileMode.Create))
             {
@@ -77,7 +208,7 @@ namespace NumAndDrive.Models.Repositories
         /// </summary>
         /// <param name="path"></param>
         /// <returns>A list of users with valid datas</returns>
-        public List<User> ReadCSVFile(string path)
+        public List<User> ReadCSVFile(StreamWriter sw, string path)
         {
             StreamReader streamReader = new StreamReader(path);
             string line;
@@ -94,9 +225,6 @@ namespace NumAndDrive.Models.Repositories
                     string firstName = values[1];
                     string mail = values[2];
                     string phoneNumber = values[3];
-                    int departmentId = int.Parse(values[4]);
-                    int userTypeId = int.Parse(values[5]);
-                    int statusId = int.Parse(values[6]);
 
                     if (AreDatasValid(lastName, firstName, mail, phoneNumber))
                     {
@@ -108,9 +236,9 @@ namespace NumAndDrive.Models.Repositories
                             ProfilePicturePath = "/img/profile-pic-blue.png",
                             Email = mail,
                             PhoneNumber = phoneNumber,
-                            DepartmentId = departmentId,
-                            UserTypeId = userTypeId,
-                            StatusId = statusId,
+                            DepartmentId = 1,
+                            UserTypeId = 1,
+                            StatusId = 1,
                             AccessFailedCount = 0,
                             LockoutEnabled = false,
                             TwoFactorEnabled = false,
@@ -119,7 +247,28 @@ namespace NumAndDrive.Models.Repositories
                             UserName = mail
                         };
                         if (IsUserUniqueInDatabaseAndLocalList(user, usersToAdd))
+                        {
                             usersToAdd.Add(user);
+                        }
+                        else
+                        {
+                            if (values[2] != null && values[2].GetType() == typeof(string))
+                            {
+                                WriteFileForNotCreatedUser(sw, values[2]);
+                            }
+                        }
+                    } else
+                    {
+                        if (values[2] != null && values[2].GetType() == typeof(string))
+                        {
+                            WriteFileForNotCreatedUser(sw, values[2]);
+                        }
+                    }
+                } else
+                {
+                    if (values[2] != null && values[2].GetType() == typeof(string))
+                    {
+                        WriteFileForNotCreatedUser(sw, values[2]);
                     }
                 }
             }
@@ -132,15 +281,19 @@ namespace NumAndDrive.Models.Repositories
         /// </summary>
         /// <param name="users"></param>
         /// <returns>Async task</returns>
-        public async Task UploadUsers(List<User> users)
+        public async Task UploadUsers(StreamWriter sw, List<User> users)
         {
             foreach (User user in users)
             {
                 string password = PasswordGenerator();
-                await _userManager.CreateAsync(user, password);
+                var result = await _userManager.CreateAsync(user, password);
+                if (!result.Succeeded)
+                {
+                    WriteFileForNotCreatedUser(sw, user.Email);
+                }
                 await _userManager.AddToRoleAsync(user, "User");
-
             }
+            _db.SaveChanges();
         }
 
         /// <summary>
@@ -231,7 +384,7 @@ namespace NumAndDrive.Models.Repositories
         /// <returns>true if the file has enough columns; otherwise, false</returns>
         public bool HasEnoughColumns(string[] values)
         {
-            return values.Count() == 7; 
+            return values.Count() == 4; 
         }
 
         /// <summary>
@@ -365,6 +518,11 @@ namespace NumAndDrive.Models.Repositories
             return true;
         }
 
+        /// <summary>
+        /// Check if the given user is valid : if the names, email and phone number are valid.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>true if all informations of the user are valid; otherwise, false</returns>
         public bool IsUserValid(User user)
         {
             bool result = false;
@@ -376,6 +534,11 @@ namespace NumAndDrive.Models.Repositories
             return result;
         }
 
+        /// <summary>
+        /// Check if the given editUserViewModel is valid : if the names and phone number are valid.
+        /// </summary>
+        /// <param name="editUserViewModel"></param>
+        /// <returns></returns>
         public bool IsEditUserViewModelValid(EditUserViewModel editUserViewModel)
         {
             bool result = false;
