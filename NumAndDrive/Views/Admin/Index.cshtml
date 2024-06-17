@@ -1,34 +1,51 @@
-﻿@using NumAndDrive.Models;
-@model Admin
+﻿@using NumAndDrive.ViewModels;
+@model AdminViewModel
 
-<h2 class="m-5">Importer les utilisateurs</h2>
-
-<form method="post" asp-controller="admin" asp-action="UploadUsersFromCSVFile" enctype="multipart/form-data">
-    <div class="text-custom-color-orange" asp-validation-summary="All"></div>
-    <div class="mb-3 row">
-        <div class="col-2">
-            <label asp-for="File" class="col-form-label">Fichier des données utilisateurs</label>
+<div class="row">
+    <div class="col-4">
+        <div class="row d-flex justify-content-center">
+            <img src="/img/logo-detailed.png" alt="Logo" class="col-8" />
         </div>
-        <div class="col-3">
-            <input type="file" asp-for="File" class="form-control" accept=".csv" />
-        </div>
-        <div class="col">
-            <span class="text-custom-color-orange" asp-validation-for="File"></span>
+        <div class="row">
+            <p class="p-0">@Model.NumberOfUsers utilisateurs</p>
         </div>
     </div>
-    <div class="mb-3 row">
-        <div class="col">
-            <input type="submit" class="btn custom-color-orange text-white custom-bottom-shadow" value="Ajouter ces utilisateurs" />
+    <div class="col-8">
+        <div class="row border border-black rounded vh-75 d-flex align-items-center custom-bottom-shadow overflow-auto">
+            <h2 class="m-4">Importer les utilisateurs</h2>
+
+            <form method="post" asp-controller="admin" asp-action="UploadUsersFromCSVFile" enctype="multipart/form-data">
+                <div class="text-custom-color-orange" asp-validation-summary="All"></div>
+                <div class="mb-3 row">
+                    <div class="col-4 ms-3">
+                        <label asp-for="File" class="col-form-label">Fichier des données utilisateurs</label>
+                    </div>
+                    <div class="col-5">
+                        <input type="file" asp-for="File" class="form-control" accept=".csv" />
+                    </div>
+                    <div class="col">
+                        <span class="text-custom-color-orange" asp-validation-for="File"></span>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <div class="m-3 p-0">
+                        <input type="submit" class="col-4 btn custom-color-orange text-white custom-bottom-shadow" value="Ajouter ces utilisateurs" />
+                    </div>
+                </div>
+            </form>
+
+            <hr />
+
+            <h2 class="m-4">Liste des utilisateurs</h2>
+            <a class="btn custom-color-orange text-white custom-bottom-shadow col-4 m-3" asp-controller="Admin" asp-action="getUsers">Afficher la liste des utilisateurs</a>
+
+            <hr />
+
+            <h2 class="m-4">Ajouter un utilisateur</h2>
+            <a class="btn custom-color-orange text-white custom-bottom-shadow col-4 m-3" asp-controller="Admin" asp-action="createSingleUser">Créer</a>
         </div>
+
+        
     </div>
-</form>
+</div>
 
-<hr />
-
-<h2 class="m-5">Liste des utilisateurs</h2>
-<a class="btn custom-color-orange text-white custom-bottom-shadow" asp-controller="Admin" asp-action="getUsers">Afficher la liste des utilisateurs</a>
-
-<hr />
-
-<h2 class="m-5">Ajouter un utilisateur</h2>
-<a class="btn custom-color-orange text-white custom-bottom-shadow" asp-controller="Admin" asp-action="createSingleUser">Créer</a>
