@@ -13,13 +13,18 @@
     <div class="col-8">
         <div class="row border border-black rounded vh-75 d-flex align-items-center custom-bottom-shadow overflow-auto">
             <h2 class="m-4">Importer les utilisateurs</h2>
-
+            <div class="col">
+                <p><span class="text-decoration-underline">Important :</span> le fichier doit répondre à des standards précis, sinon les données ne seront pas validées par l'application. Veuillez vous assurer que vous allez envoyer :
+                    <ul>
+                        <li>Un fichier .csv</li>
+                        <li>Avec des données valides</li>
+                        <li>Qui comporte 4 colonnes qui reprennent respectivement le prénom, le nom, le mail et le numéro de téléphone</li>
+                    </ul>
+                </p>
+            </div>
             <form method="post" asp-controller="admin" asp-action="UploadUsersFromCSVFile" enctype="multipart/form-data">
                 <div class="text-custom-color-orange" asp-validation-summary="All"></div>
                 <div class="mb-3 row">
-                    <div class="col-4 ms-3">
-                        <label asp-for="File" class="col-form-label">Fichier des données utilisateurs</label>
-                    </div>
                     <div class="col-5">
                         <input type="file" asp-for="File" class="form-control" accept=".csv" />
                     </div>

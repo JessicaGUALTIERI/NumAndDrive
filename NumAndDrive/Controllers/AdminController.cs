@@ -45,15 +45,20 @@ namespace NumAndDrive.Controllers
         public IActionResult Edit(string id)
         {
             User user = _adminRepository.GetUserDetails(id);
-            EditUserViewModel editUserViewModel = new EditUserViewModel {
-                Id = id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                PhoneNumber = user.PhoneNumber,
-                Statuses = _adminRepository.GetStatuses(),
-                Departments = _adminRepository.GetDepartments()
-            };
-            return View(editUserViewModel);
+            if (user != null)
+            {
+                EditUserViewModel editUserViewModel = new EditUserViewModel
+                {
+                    Id = id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    PhoneNumber = user.PhoneNumber,
+                    Statuses = _adminRepository.GetStatuses(),
+                    Departments = _adminRepository.GetDepartments()
+                };
+                return View(editUserViewModel);
+            }
+            return RedirectToAction(nameof(GetUsers));
         }
 
         [HttpPost]
@@ -76,7 +81,10 @@ namespace NumAndDrive.Controllers
         {
             User user = _adminRepository.GetUserDetails(id);
 
-            _adminRepository.ArchiveUser(user);
+            if (user != null)
+            {
+                _adminRepository.ArchiveUser(user);
+            }
 
             return RedirectToAction(nameof(GetUsers));
         }
@@ -103,7 +111,7 @@ namespace NumAndDrive.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateSingleUser(CreateUserViewModel userViewModel)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && userViewModel != null)
             {
                 await _adminRepository.CreateSingleUser(userViewModel);
                 return RedirectToAction(nameof(Index));

@@ -162,20 +162,23 @@ namespace NumAndDrive.Models.Repositories
         /// <returns>Async task</returns>
         public async Task UploadUsersFromCSVFile(AdminViewModel admin)
         {
-            string folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"../../wwwroot/data/");
-            string filePath = folderPath + admin.File.FileName;
-            CreateFolder(folderPath);
-            CreateFile(filePath, admin);
+            if (admin != null)
+            {
+                string folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"../../wwwroot/data/");
+                string filePath = folderPath + admin.File.FileName;
+                CreateFolder(folderPath);
+                CreateFile(filePath, admin);
 
-            string webRootPath = _webHostEnvironment.WebRootPath;
-            string path = Path.Combine(webRootPath, "users_not_created.csv");
-            StreamWriter streamWriter = new StreamWriter(path);
-            List<User> usersToAdd = ReadCSVFile(streamWriter, filePath);
+                string webRootPath = _webHostEnvironment.WebRootPath;
+                string path = Path.Combine(webRootPath, "users_not_created.csv");
+                StreamWriter streamWriter = new StreamWriter(path);
+                List<User> usersToAdd = ReadCSVFile(streamWriter, filePath);
 
-            DeleteFolder(folderPath);
-            await UploadUsers(streamWriter, usersToAdd);
+                DeleteFolder(folderPath);
+                await UploadUsers(streamWriter, usersToAdd);
 
-            streamWriter.Close();
+                streamWriter.Close();
+            }
         }
 
         /// <summary>
@@ -205,9 +208,12 @@ namespace NumAndDrive.Models.Repositories
         /// <param name="admin"></param>
         public void CreateFile(string path, AdminViewModel admin)
         {
-            using (var stream = new FileStream(path, FileMode.Create))
+            if (admin != null)
             {
-                admin.File.CopyTo(stream);
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    admin.File.CopyTo(stream);
+                }
             }
         }
 
