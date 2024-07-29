@@ -56,9 +56,9 @@ namespace NumAndDrive.Models.Repositories
             SearchUserViewModel toReturn = new SearchUserViewModel()
             {
                 Users = _db.Users.Where(x =>
-                                            x.FirstName.ToLower().Contains(name.ToLower())
-                                            || x.LastName.ToLower().Contains(name.ToLower())
-                                            && x.ArchiveDate == null
+                                            x.ArchiveDate == null
+                                            && (x.FirstName.ToLower().Contains(name.ToLower())
+                                            || x.LastName.ToLower().Contains(name.ToLower()))
                                         ).ToList(),
                 Query = name
             };
