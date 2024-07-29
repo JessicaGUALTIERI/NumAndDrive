@@ -12,7 +12,7 @@ namespace NumAndDrive.Models.Repositories
         bool IsEditUserViewModelValid(EditUserViewModel editUserViewModel);
         int GetNumberOfUsersInDatabase();
         List<User> GetUsers();
-        List<User> GetUsersByName(string name);
+        SearchUserViewModel GetUsersByName(string name);
         User GetUserDetails(string id);
         Task ArchiveUser(User user);
         Task CreateSingleUser(CreateUserViewModel userViewModel);
@@ -20,6 +20,8 @@ namespace NumAndDrive.Models.Repositories
         List<Department> GetDepartments();
         Task EditUser(EditUserViewModel newValues, User user);
         byte[] GetCSVFile();
+        public int GetNumberOfJourneysInDatabase();
+        public Company GetCompany();
     }
 }
 

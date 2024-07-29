@@ -19,7 +19,11 @@ namespace NumAndDrive.Controllers
 
         public IActionResult Index()
         {
-            AdminViewModel admin = new AdminViewModel { NumberOfUsers = _adminRepository.GetNumberOfUsersInDatabase() };
+            AdminViewModel admin = new AdminViewModel {
+                NumberOfUsers = _adminRepository.GetNumberOfUsersInDatabase(),
+                NumberOfJourneys = _adminRepository.GetNumberOfJourneysInDatabase(),
+                Company = _adminRepository.GetCompany()
+            };
             return View(admin);
         }
 
@@ -32,7 +36,7 @@ namespace NumAndDrive.Controllers
         [HttpPost]
         public IActionResult GetUsersByName(string searchString)
         {
-            List<User> user = _adminRepository.GetUsersByName(searchString);
+            SearchUserViewModel user = _adminRepository.GetUsersByName(searchString);
             return View(user);
         }
 

@@ -112,3 +112,7 @@ input.custom-focus:focus {
 .custom-top-left-position {
     transform: translateY(130%);
 }
+
+.rotate-180 {
+    transform: rotate(180deg);
+}

@@ -16,6 +16,8 @@ namespace NumAndDrive.ViewModels
         public NumAndDriveDbContext Db { get; set; }
         public UserManager<User> _userManager;
         public int NumberOfUsers { get; set; }
+        public int NumberOfJourneys { get; set; }
+        public Company Company { get; set; }
     }
 }
 

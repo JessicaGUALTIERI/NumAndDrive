@@ -39,7 +39,11 @@ namespace NumAndDrive.Models.Repositories
         /// <returns>A list of users</returns>
         public List<User> GetUsers()
         {
-            return _db.Users.Where(x => x.ArchiveDate == null).ToList();
+            return _db.Users
+                .Where(x => x.ArchiveDate == null
+                && x.Id != "ec6138af-b5fd-4c62-8c73-f7b717ce1434")
+                .OrderBy(x => x.LastName)
+                .ToList();
         }
 
         /// <summary>
@@ -47,18 +51,44 @@ namespace NumAndDrive.Models.Repositories
         /// </summary>
         /// <param name="name"></param>
         /// <returns>A list of users matching the given name</returns>
-        public List<User> GetUsersByName(string name)
+        public SearchUserViewModel GetUsersByName(string name)
         {
-            return _db.Users.Where(x => x.FirstName.ToLower().Contains(name.ToLower()) || x.LastName.ToLower().Contains(name.ToLower())).ToList();
+            SearchUserViewModel toReturn = new SearchUserViewModel()
+            {
+                Users = _db.Users.Where(x =>
+                                            x.FirstName.ToLower().Contains(name.ToLower())
+                                            || x.LastName.ToLower().Contains(name.ToLower())
+                                        ).ToList(),
+                Query = name
+            };
+            return toReturn;
         }
 
         /// <summary>
-        /// Go through database to count of many users are registered.
+        /// Go through database to count how many users are registered.
         /// </summary>
         /// <returns>The number of registered users</returns>
         public int GetNumberOfUsersInDatabase()
         {
             return _db.Users.Count();
+        }
+
+        /// <summary>
+        /// Go through database to count how many journeys are registered.
+        /// </summary>
+        /// <returns>The number of registered journeys</returns>
+        public int GetNumberOfJourneysInDatabase()
+        {
+            return _db.Journeys.Count();
+        }
+
+        /// <summary>
+        /// Go through database and look for the first company.
+        /// </summary>
+        /// <returns>Return the first company.</returns>
+        public Company GetCompany()
+        {
+            return _db.Companies.FirstOrDefault();
         }
 
         /// <summary>
@@ -77,17 +107,20 @@ namespace NumAndDrive.Models.Repositories
         /// <param name="user"></param>
         public async Task ArchiveUser(User user)
         {
-            user.FirstName = "utilisateur";
-            user.LastName = "utilisateur";
-            user.Email = null;
-            user.NormalizedEmail = null;
-            user.PhoneNumber = null;
-            user.Email = null;
-            user.UserName = "utilisateur";
-            user.NormalizedUserName = "UTILISATEUR";
+            if (user.Id != "ec6138af-b5fd-4c62-8c73-f7b717ce1434")
+            {
+                user.FirstName = "utilisateur";
+                user.LastName = "utilisateur";
+                user.Email = null;
+                user.NormalizedEmail = null;
+                user.PhoneNumber = null;
+                user.Email = null;
+                user.UserName = "utilisateur";
+                user.NormalizedUserName = "UTILISATEUR";
 
-            user.ArchiveDate = DateOnly.FromDateTime(DateTime.UtcNow);
-            _db.SaveChanges();
+                user.ArchiveDate = DateOnly.FromDateTime(DateTime.UtcNow);
+                _db.SaveChanges();
+            }
         }
 
         /// <summary>
