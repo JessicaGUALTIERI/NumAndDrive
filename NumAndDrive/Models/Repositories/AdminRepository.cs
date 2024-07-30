@@ -57,9 +57,11 @@ namespace NumAndDrive.Models.Repositories
             {
                 Users = _db.Users.Where(x =>
                                             x.ArchiveDate == null
+                                            && x.Id != "ec6138af-b5fd-4c62-8c73-f7b717ce1434"
                                             && (x.FirstName.ToLower().Contains(name.ToLower())
                                             || x.LastName.ToLower().Contains(name.ToLower()))
-                                        ).ToList(),
+                                        ).OrderBy(x => x.LastName)
+                                        .ToList(),
                 Query = name
             };
             return toReturn;

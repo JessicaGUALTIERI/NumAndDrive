@@ -7,6 +7,7 @@
 
 
     <form method="post" asp-controller="admin" asp-action="createSingleUser">
+        @Html.AntiForgeryToken()
         <div class="text-custom-color-orange" asp-validation-summary="ModelOnly"></div>
         <div class="mb-3 row">
             <div class="col-2">
