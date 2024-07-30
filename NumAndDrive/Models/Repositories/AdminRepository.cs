@@ -143,9 +143,12 @@ namespace NumAndDrive.Models.Repositories
                 UserName = userViewModel.Email
             };
             string password = PasswordGenerator();
-            await _userManager.CreateAsync(user, password);
-            await _userManager.AddToRoleAsync(user, "User");
-            _db.SaveChanges();
+            if (IsUserValid(user))
+            {
+                await _userManager.CreateAsync(user, password);
+                await _userManager.AddToRoleAsync(user, "User");
+                _db.SaveChanges();
+            }
         }
 
         /// <summary>
