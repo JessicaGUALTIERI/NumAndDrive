@@ -26,7 +26,6 @@
     <None Remove="Database\" />
     <None Remove="Database\EntityConfig\" />
     <None Remove="Models\Admin\" />
-    <None Remove="Models\Repositories\" />
     <None Remove="ViewModels\" />
     <None Remove="Views\Account\" />
     <None Remove="Views\User\" />
@@ -35,12 +34,12 @@
     <None Remove="Areas\Admin\" />
     <None Remove="Areas\Users\" />
     <None Remove="Validation\" />
+    <None Remove="Services\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Database\" />
     <Folder Include="Database\EntityConfig\" />
     <Folder Include="Models\Admin\" />
-    <Folder Include="Models\Repositories\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Views\Account\" />
     <Folder Include="Views\User\" />
@@ -49,5 +48,6 @@
     <Folder Include="Areas\Admin\" />
     <Folder Include="Areas\Users\" />
     <Folder Include="Validation\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 </Project>

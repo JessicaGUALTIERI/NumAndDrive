@@ -9,15 +9,12 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace NumAndDrive.ViewModels
 {
-	public class AdminViewModel
-	{
-		[Required]
-        public IFormFile File { get; set; }
-        public NumAndDriveDbContext Db { get; set; }
-        public UserManager<User> _userManager;
+    public class AdminViewModel
+    {
         public int NumberOfUsers { get; set; }
         public int NumberOfJourneys { get; set; }
         public Company Company { get; set; }
+        public UploadUsersViewModel UploadUsersViewModel { get; set; }
     }
 }
 

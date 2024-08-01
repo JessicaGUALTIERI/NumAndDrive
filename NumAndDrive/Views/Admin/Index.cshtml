@@ -30,23 +30,9 @@
                     <li>Qui comporte 4 colonnes qui reprennent respectivement le prénom, le nom, le mail et le numéro de téléphone</li>
                 </ul>
             </p>
-            <form method="post" asp-controller="admin" asp-action="UploadUsersFromCSVFile" enctype="multipart/form-data">
-                <div class="text-custom-color-orange" asp-validation-summary="All"></div>
-                <div class="mb-3 row">
-                    <div class="col-5">
-                        <input type="file" asp-for="File" class="form-control" accept=".csv" />
-                    </div>
-                    <div class="col">
-                        <span class="text-custom-color-orange" asp-validation-for="File"></span>
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <div class="m-3 p-0">
-                        <input type="submit" class="col-4 btn custom-color-orange text-white custom-bottom-shadow" value="Ajouter ces utilisateurs" />
-                        <a class="btn custom-color-orange text-white custom-bottom-shadow col-7 m-3" asp-controller="Admin" asp-action="DownloadCsv">Télécharger la liste des utilisateurs non créés</a>
-                    </div>
-                </div>
-            </form>
+            @{
+                await Html.RenderPartialAsync("~/Views/Admin/_uploadUsersForm.cshtml", new UploadUsersViewModel());
+            }
         </div>
 
 
@@ -72,7 +58,7 @@
             </svg>
         </div>
         <div class="d-none" id="div-add-user">
-            <a class="btn custom-color-orange text-white custom-bottom-shadow col-4 m-3" asp-controller="Admin" asp-action="createSingleUser">Créer</a>
+            <a class="btn custom-color-orange text-white custom-bottom-shadow col-4 m-3" asp-controller="Admin" asp-action="Create">Créer</a>
         </div>
     </div>
 </div>

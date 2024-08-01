@@ -1,17 +1,18 @@
 ﻿using System.Text.RegularExpressions;
 using NumAndDrive.Models.Repositories;
+using NumAndDrive.Services;
 
 namespace NumAndDrive.UnitTests;
 
 [TestClass]
-public class AdminRepositoryTests
+public class AdminServiceTests
 {
-    AdminRepository fileDataTest;
+    AdminService fileDataTest;
 
     [TestInitialize]
     public void Init()
     {
-        fileDataTest = new AdminRepository();
+        fileDataTest = new AdminService();
     }
 
     [TestMethod]

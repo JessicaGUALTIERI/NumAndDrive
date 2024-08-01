@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using NumAndDrive.Models;
 using NumAndDrive.Models.Repositories;
+using NumAndDrive.Services;
 using NumAndDrive.ViewModels;
 
 namespace NumAndDrive.Controllers
@@ -10,125 +11,110 @@ namespace NumAndDrive.Controllers
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-        private readonly IAdminRepository _adminRepository;
+        private readonly IAdminService _adminService;
  
-        public AdminController(IAdminRepository adminRepository)
+        public AdminController(IAdminService adminService)
         {
-            _adminRepository = adminRepository;
+            _adminService = adminService;
         }
 
         public IActionResult Index()
         {
             AdminViewModel admin = new AdminViewModel {
-                NumberOfUsers = _adminRepository.GetNumberOfUsersInDatabase(),
-                NumberOfJourneys = _adminRepository.GetNumberOfJourneysInDatabase(),
-                Company = _adminRepository.GetCompany()
+                NumberOfUsers = _adminService.GetNumberOfUsers(),
+                NumberOfJourneys = _adminService.GetNumberOfJourneys(),
+                Company = _adminService.GetCompany()
             };
             return View(admin);
         }
 
         public IActionResult GetUsers()
         {
-            List<User> users = _adminRepository.GetUsers();
+            List<User> users = _adminService.GetUsers();
             return View(users);
         }
 
         [HttpPost]
         public IActionResult GetUsersByName(string searchString)
         {
-            SearchUserViewModel user = _adminRepository.GetUsersByName(searchString);
+            SearchUserViewModel user = _adminService.GetUsersByName(searchString);
             return View(user);
         }
 
         public IActionResult Details(string id)
         {
-            User user = _adminRepository.GetUserDetails(id);
+            User user = _adminService.GetUser(id);
             return View(user);
         }
 
         public IActionResult Edit(string id)
         {
-            User user = _adminRepository.GetUserDetails(id);
-            if (user != null)
+            User user = _adminService.GetUser(id);
+            UserViewModel userViewModel = new UserViewModel
             {
-                EditUserViewModel editUserViewModel = new EditUserViewModel
-                {
-                    Id = id,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    PhoneNumber = user.PhoneNumber,
-                    Statuses = _adminRepository.GetStatuses(),
-                    Departments = _adminRepository.GetDepartments()
-                };
-                return View(editUserViewModel);
-            }
-            return RedirectToAction(nameof(GetUsers));
+                User = user,
+                Statuses = _adminService.GetStatuses(),
+                Departments = _adminService.GetDepartments()
+            };
+            return View(userViewModel);
         }
 
         [HttpPost]
-        public IActionResult Edit(EditUserViewModel newUser, string id)
+        public IActionResult Edit(UserViewModel userViewModel)
         {
-            if (ModelState.IsValid && newUser != null && _adminRepository.IsEditUserViewModelValid(newUser))
+            if (ModelState.IsValid)
             {
-                User user = _adminRepository.GetUserDetails(id);
-
-                if (user != null)
-                {
-                    _adminRepository.EditUser(newUser, user);
-                }
+                _adminService.EditUser(userViewModel);
                 return RedirectToAction(nameof(GetUsers));
             }
-            return View(newUser);
+            userViewModel.Statuses = _adminService.GetStatuses();
+            userViewModel.Departments = _adminService.GetDepartments();
+            return View(userViewModel);
         }
 
         public IActionResult Archive(string id)
         {
-            User user = _adminRepository.GetUserDetails(id);
-
+            User user = _adminService.GetUser(id);
             if (user != null)
             {
-                _adminRepository.ArchiveUser(user);
+                _adminService.ArchiveUser(user);
             }
-
             return RedirectToAction(nameof(GetUsers));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UploadUsersFromCSVFile(AdminViewModel admin)
+        public async Task<IActionResult> UploadUsersFromCSVFile(UploadUsersViewModel uploadUsersViewModel)
         {
-           await _adminRepository.UploadUsersFromCSVFile(admin);
-           return RedirectToAction(nameof(Index));
+            if (uploadUsersViewModel.File != null)
+            {
+                await _adminService.UploadUsersFromCSVFile(uploadUsersViewModel);
+            }
+           return RedirectToAction(nameof(Index), new AdminViewModel() { UploadUsersViewModel = uploadUsersViewModel });
         }
 
-        public IActionResult CreateSingleUser()
+        public IActionResult Create()
         {
-            CreateUserViewModel createSingleUserViewModel = new CreateUserViewModel
+            UserViewModel createSingleUserViewModel = new UserViewModel
             {
-                Statuses = _adminRepository.GetStatuses(),
-                Departments = _adminRepository.GetDepartments()
+                Statuses = _adminService.GetStatuses(),
+                Departments = _adminService.GetDepartments()
             };
             return View(createSingleUserViewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateSingleUser(CreateUserViewModel userViewModel)
+        public async Task<IActionResult> Create(UserViewModel userViewModel)
         {
-            if (ModelState.IsValid && userViewModel != null)
+            if (ModelState.IsValid)
             {
-                await _adminRepository.CreateSingleUser(userViewModel);
+                await _adminService.CreateSingleUser(userViewModel);
                 return RedirectToAction(nameof(Index));
             }
-            userViewModel.Statuses = _adminRepository.GetStatuses();
-            userViewModel.Departments = _adminRepository.GetDepartments();
+            userViewModel.Statuses = _adminService.GetStatuses();
+            userViewModel.Departments = _adminService.GetDepartments();
             return View(userViewModel);
-        }
-
-        public IActionResult DownloadCsv()
-        {
-            var bytes = _adminRepository.GetCSVFile();
-            return File(bytes, "application/octet-stream", "users_not_created.csv");
         }
     }
 }

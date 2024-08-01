@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace NumAndDrive.Models.Repositories
 {
-    public class JourneyRepository : IJourneyRepository
+    public class JourneyService : IJourneyService
     {
         /// <summary>
         /// allows to split a complete address into 3 distinct parts: a street address, a postal code, and a city based on the place of the postal code 

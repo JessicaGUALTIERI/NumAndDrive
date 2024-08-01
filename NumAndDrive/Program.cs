@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using NumAndDrive.Database;
 using NumAndDrive.Models;
 using NumAndDrive.Models.Repositories;
+using NumAndDrive.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true); // https:\//stackoverflow.com/questions/72060349/form-field-is-required-even-if-not-defined-so
 
 builder.Services.AddScoped<NumAndDriveDbContext>();
-builder.Services.AddScoped<IAdminRepository, AdminRepository>();
-builder.Services.AddScoped<IJourneyRepository, JourneyRepository>();
+builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IJourneyService, JourneyService>();
 
 var connectionString = builder.Configuration.GetConnectionString("Project_NumAndDriveDbContextConnection") ?? throw new InvalidOperationException("Connection string 'Project_NumAndDriveDbContextConnection' not found.");
 

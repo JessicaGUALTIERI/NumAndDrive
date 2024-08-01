@@ -7,6 +7,7 @@
             <th>Nom</th>
             <th>Prénom</th>
             <th>Adresse mail</th>
+            <th>Phone number</th>
             <th></th>
             <th></th>
             <th></th>
@@ -19,6 +20,7 @@
                 <td>@user.LastName</td>
                 <td>@user.FirstName</td>
                 <td>@user.Email</td>
+                <td>@user.PhoneNumber</td>
                 <td><a asp-controller="admin" asp-action="details" asp-route-id="@user.Id"><img src="../img/icon-view.png" alt="Voir" height="30" /></a></td>
                 <td><a asp-controller="admin" asp-action="edit" asp-route-id="@user.Id"><img src="../img/icon-edit.png" alt="Modifier" height="30" /></a></td>
                 <td><a asp-controller="admin" asp-action="archive" asp-route-id="@user.Id"><img src="../img/icon-delete.png" alt="Archiver" height="30" /></a></td>

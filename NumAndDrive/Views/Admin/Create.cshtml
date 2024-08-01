@@ -3,12 +3,11 @@
 
 <a asp-controller="admin" asp-action="getUsers" class="btn custom-color-orange text-white custom-bottom-shadow">Retour</a>
 
-<h2 class="m-5">Modifier un utilisateur</h2>
+<h2 class="m-5">Ajouter un nouvel utilisateur</h2>
 
-<form method="post" asp-controller="admin" asp-action="edit">
+<form method="post" asp-controller="admin" asp-action="create">
     @Html.AntiForgeryToken()
     <div class="text-custom-color-orange" asp-validation-summary="ModelOnly"></div>
-    <input asp-for="User.Id" type="hidden" />
     <div class="mb-3 row">
         <div class="col-2">
             <label asp-for="User.FirstName" class="col-form-label">Prénom</label>
@@ -29,6 +28,17 @@
         </div>
         <div class="col">
             <span class="text-custom-color-orange" asp-validation-for="User.LastName"></span>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <div class="col-2">
+            <label asp-for="User.Email" class="col-form-label">Numéro de téléphone</label>
+        </div>
+        <div class="col-3">
+            <input type="text" asp-for="User.Email" class="form-control" />
+        </div>
+        <div class="col">
+            <span class="text-custom-color-orange" asp-validation-for="User.Email"></span>
         </div>
     </div>
     <div class="mb-3 row">

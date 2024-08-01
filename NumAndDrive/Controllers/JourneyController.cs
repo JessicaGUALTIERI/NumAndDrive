@@ -21,12 +21,12 @@ namespace NumAndDrive.Controllers
     {
         private readonly NumAndDriveDbContext Db;
         private readonly UserManager<User> UserManager;
-        private readonly IJourneyRepository JourneyRepository;
+        private readonly IJourneyService JourneyService;
 
-        public JourneyController(NumAndDriveDbContext db, IJourneyRepository journeyRepository, UserManager<User> userManager)
+        public JourneyController(NumAndDriveDbContext db, IJourneyService journeyService, UserManager<User> userManager)
         {
             Db = db;
-            JourneyRepository = journeyRepository;
+            JourneyService = journeyService;
             UserManager = userManager;
         }
 
@@ -51,7 +51,7 @@ namespace NumAndDrive.Controllers
         public async Task<IActionResult> Add(JourneyCompanyViewModel journeyCompanyViewModel, User user)
         {
             string completeAddress = journeyCompanyViewModel.AddressToTrim;
-            (string postalAddress,string postalCode,string city) = JourneyRepository.AddressTrimer(completeAddress);
+            (string postalAddress,string postalCode,string city) = JourneyService.AddressTrimer(completeAddress);
             Address address = new Address
             {
                 PostalAddress = postalAddress,
