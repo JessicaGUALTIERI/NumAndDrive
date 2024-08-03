@@ -3,44 +3,62 @@
 
 <div class="vh-75 d-flex justify-content-between align-items-center">
     <div class="w-25 h-100 d-flex flex-column justify-content-around">
-            <img src="/img/logo-detailed.png" alt="Logo" class="w-75 mx-auto" />
-            <h2 class="fw-semibold fs-4 text-center">Panel administrateur</h2>
-            <div class="border border-gray p-4">
-                <ul>
-                    <li>@Model.NumberOfUsers utilisateurs</li>
-                    <li>@Model.NumberOfJourneys voyages</li>
-                </ul>
-                <hr>
-                <p class="text-center fs-6">Application réalisée pour <span class="text-custom-color-orange fw-semibold">@Model.Company.Name</span> par JeCyMa</p>
-            </div>
+        <img src="/img/logo-detailed.png" alt="Logo" class="w-75 mx-auto" />
+        <h2 class="fw-semibold fs-4 text-center">Panel administrateur</h2>
+        <div class="border border-gray rounded p-4">
+            <ul>
+                <li>@Model.NumberOfUsers utilisateurs</li>
+                <li>@Model.NumberOfJourneys voyages</li>
+            </ul>
+            <hr>
+            <p class="text-center fs-6">Application réalisée pour <span class="text-custom-color-orange fw-semibold">@Model.Company.Name</span> par JeCyMa</p>
+        </div>
     </div>
     <div class="p-4 ms-5 w-75 h-100 border border-gray rounded custom-bottom-shadow overflow-auto">
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between" onclick="displayDiv(`arrow-add-initial-users`, `div-add-initial-users`)">
             <h2 class="m-4">Importer les utilisateurs</h2>
-            <svg class="vh-7 my-auto" id="arrow-add-initial-users" onclick="displayDiv(`arrow-add-initial-users`, `div-add-initial-users`)" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="vh-7 my-auto" id="arrow-add-initial-users" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M5.70711 9.71069C5.31658 10.1012 5.31658 10.7344 5.70711 11.1249L10.5993 16.0123C11.3805 16.7927 12.6463 16.7924 13.4271 16.0117L18.3174 11.1213C18.708 10.7308 18.708 10.0976 18.3174 9.70708C17.9269 9.31655 17.2937 9.31655 16.9032 9.70708L12.7176 13.8927C12.3271 14.2833 11.6939 14.2832 11.3034 13.8927L7.12132 9.71069C6.7308 9.32016 6.09763 9.32016 5.70711 9.71069Z" fill="#0F0F0F" />
             </svg>
         </div>
-        <div class="d-none" id="div-add-initial-users">
-            <p>
-                <span class="fw-semibold">Important :</span> le fichier doit répondre à des standards précis, sinon les données ne seront pas validées par l'application. Veuillez vous assurer que vous allez envoyer :
-                <ul>
-                    <li>Un fichier .csv</li>
-                    <li>Avec des données valides</li>
-                    <li>Qui comporte 4 colonnes qui reprennent respectivement le prénom, le nom, le mail et le numéro de téléphone</li>
-                </ul>
-            </p>
-            @{
-                await Html.RenderPartialAsync("~/Views/Admin/_uploadUsersForm.cshtml", new UploadUsersViewModel());
-            }
-        </div>
+
+        @if (Model.UploadUsersViewModel.NumberUsersNotValidated > 0)
+        {
+            <div id="div-add-initial-users">
+                <div class="mb-3 row">
+                    <div class="m-3 p-0">
+                        <p class="text">Le fichier transmis n'a pas permis l'ajout de la totalité des utilisateurs. La cause la plus probable est le non respect des conditions du fichier (voir ci-dessus). Veuillez télécharger la liste des <span class="text-custom-color-orange">@Model.UploadUsersViewModel.NumberUsersNotValidated</span> utilisateurs concernés afin de réaliser les corrections nécessaires et réessayez.</p>
+                    </div>
+                    <div class="d-flex justify-content-around">
+                        <a class="btn custom-color-orange text-white custom-bottom-shadow col-4" href="/users_not_created.csv" download>Télécharger</a>
+                        <a class="btn custom-color-orange text-white custom-bottom-shadow col-4" asp-controller="Admin" asp-action="Index">Réessayer</a>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="d-none" id="div-add-initial-users">
+                <div>
+                    <span class="fw-semibold">Important :</span> le fichier doit répondre à des standards précis, sinon les données ne seront pas validées par l'application. Veuillez vous assurer que vous allez envoyer :
+                    <ul>
+                        <li>Un fichier .csv</li>
+                        <li>Avec des données valides</li>
+                        <li>Qui comporte 4 colonnes qui reprennent respectivement le prénom, le nom, le mail et le numéro de téléphone</li>
+                    </ul>
+                </div>
+                @{
+                    await Html.RenderPartialAsync("~/Views/Admin/_uploadUsersForm.cshtml", new UploadUsersViewModel());
+                }
+            </div>
+        }
 
 
         <hr />
 
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between" onclick="displayDiv(`arrow-display-users`, `div-display-users`)">
             <h2 class="m-4">Liste des utilisateurs</h2>
-            <svg class="vh-7 my-auto" id="arrow-display-users" onclick="displayDiv(`arrow-display-users`, `div-display-users`)" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="vh-7 my-auto" id="arrow-display-users" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M5.70711 9.71069C5.31658 10.1012 5.31658 10.7344 5.70711 11.1249L10.5993 16.0123C11.3805 16.7927 12.6463 16.7924 13.4271 16.0117L18.3174 11.1213C18.708 10.7308 18.708 10.0976 18.3174 9.70708C17.9269 9.31655 17.2937 9.31655 16.9032 9.70708L12.7176 13.8927C12.3271 14.2833 11.6939 14.2832 11.3034 13.8927L7.12132 9.71069C6.7308 9.32016 6.09763 9.32016 5.70711 9.71069Z" fill="#0F0F0F" />
             </svg>
         </div>
@@ -51,9 +69,9 @@
 
         <hr />
 
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between" onclick="displayDiv(`arrow-add-user`, `div-add-user`)">
             <h2 class="m-4">Ajouter un utilisateur</h2>
-            <svg class="vh-7 my-auto" id="arrow-add-user" onclick="displayDiv(`arrow-add-user`, `div-add-user`)" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="vh-7 my-auto" id="arrow-add-user" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M5.70711 9.71069C5.31658 10.1012 5.31658 10.7344 5.70711 11.1249L10.5993 16.0123C11.3805 16.7927 12.6463 16.7924 13.4271 16.0117L18.3174 11.1213C18.708 10.7308 18.708 10.0976 18.3174 9.70708C17.9269 9.31655 17.2937 9.31655 16.9032 9.70708L12.7176 13.8927C12.3271 14.2833 11.6939 14.2832 11.3034 13.8927L7.12132 9.71069C6.7308 9.32016 6.09763 9.32016 5.70711 9.71069Z" fill="#0F0F0F" />
             </svg>
         </div>

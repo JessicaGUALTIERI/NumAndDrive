@@ -23,7 +23,11 @@ namespace NumAndDrive.Controllers
             AdminViewModel admin = new AdminViewModel {
                 NumberOfUsers = _adminService.GetNumberOfUsers(),
                 NumberOfJourneys = _adminService.GetNumberOfJourneys(),
-                Company = _adminService.GetCompany()
+                Company = _adminService.GetCompany(),
+                UploadUsersViewModel = new UploadUsersViewModel()
+                {
+                    NumberUsersNotValidated = 0
+                }
             };
             return View(admin);
         }
@@ -49,6 +53,7 @@ namespace NumAndDrive.Controllers
 
         public IActionResult Edit(string id)
         {
+            ViewBag.Action = "edit";
             User user = _adminService.GetUser(id);
             UserViewModel userViewModel = new UserViewModel
             {
@@ -90,11 +95,17 @@ namespace NumAndDrive.Controllers
             {
                 await _adminService.UploadUsersFromCSVFile(uploadUsersViewModel);
             }
-           return RedirectToAction(nameof(Index), new AdminViewModel() { UploadUsersViewModel = uploadUsersViewModel });
+           return View("Index", new AdminViewModel() {
+               NumberOfUsers = _adminService.GetNumberOfUsers(),
+               NumberOfJourneys = _adminService.GetNumberOfJourneys(),
+               Company = _adminService.GetCompany(),
+               UploadUsersViewModel = uploadUsersViewModel
+           });
         }
 
         public IActionResult Create()
         {
+            ViewBag.Action = "create";
             UserViewModel createSingleUserViewModel = new UserViewModel
             {
                 Statuses = _adminService.GetStatuses(),

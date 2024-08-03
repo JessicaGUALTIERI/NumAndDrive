@@ -14,13 +14,4 @@
     <div class="mb-3 row">
         <input type="submit" class="btn custom-color-orange text-white custom-bottom-shadow col-4 m-3" value="Ajouter ces utilisateurs" />
     </div>
-    @if (Model.NumberUsersNotValidated > 0)
-    {
-        <div class="mb-3 row">
-            <div class="m-3 p-0">
-                <span>Le fichier transmis n'a pas permis l'ajout de la totalité des utilisateurs. La cause la plus probable est le non respect des conditions du fichier (voir ci-dessus). Veuillez télécharger la liste des <span class="text-custom-color-orange">@Model.NumberUsersNotValidated</span> utilisateurs concernés afin de réaliser les corrections nécessaires et réessayez.</span>
-                <a class="btn custom-color-orange text-white custom-bottom-shadow col-7 m-3" download="~/wwwroot/users_not_created.csv">Télécharger</a>
-            </div>
-        </div>
-    }
 </form>

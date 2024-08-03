@@ -16,12 +16,16 @@ namespace NumAndDrive.Services
         private readonly NumAndDriveDbContext? _db;
         private readonly UserManager<User> _userManager;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly StreamWriter _streamWriter;
 
         public AdminService(NumAndDriveDbContext db, UserManager<User> userManager, IWebHostEnvironment webHostEnvironment)
         {
             _db = db;
             _userManager = userManager;
             _webHostEnvironment = webHostEnvironment;
+            string webRootPath = _webHostEnvironment.WebRootPath;
+            string path = Path.Combine(webRootPath, "users_not_created.csv");
+            _streamWriter = new StreamWriter(path);
         }
 
         public AdminService()
@@ -70,7 +74,13 @@ namespace NumAndDrive.Services
         /// <returns>The number of registered users</returns>
         public int GetNumberOfUsers()
         {
-            return _db?.Users.Count() > 0 ? _db.Users.Count() - 1 : 0;
+            List<User> users = GetUsers();
+            int numberOfUsers = 0;
+            if (users != null)
+            {
+                numberOfUsers = users.Count;
+            }
+            return numberOfUsers;
         }
 
         /// <summary>
@@ -209,6 +219,7 @@ namespace NumAndDrive.Services
                 DeleteFolder();
                 await UploadUsers(viewModel, usersToAdd);
             }
+            _streamWriter.Close();
             return viewModel ?? new UploadUsersViewModel();
         }
 
@@ -247,12 +258,8 @@ namespace NumAndDrive.Services
         /// <returns>A list of users with valid datas</returns>
         public List<User> ReadCSVFile(UploadUsersViewModel viewModel)
         {
-            string webRootPath = _webHostEnvironment.WebRootPath;
-            string path = Path.Combine(webRootPath, "users_not_created.csv");
-            byte[] file = File.ReadAllBytes(path);
             string? folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"../../wwwroot/data/");
             string? filePath = folderPath + viewModel.File.FileName;
-            StreamWriter streamWriter = new StreamWriter(path);
             StreamReader streamReader = new StreamReader(filePath);
             string line;
             string[] values;
@@ -292,20 +299,18 @@ namespace NumAndDrive.Services
                         if (IsUserUniqueInDatabaseAndLocalList(user, usersToAdd))
                         {
                             usersToAdd.Add(user);
+                        } else if (values[2] != null && values[2].GetType() == typeof(string))
+                        {
+                            _streamWriter.WriteLine(values[2]);
+                            viewModel.NumberUsersNotValidated++;
                         }
                     } 
-                } else
-                {
-                    if (values[2] != null && values[2].GetType() == typeof(string))
-                    {
-                        streamWriter.WriteLine(values[2]);
-                        viewModel.NumberUsersNotValidated++;
-                    }
-                }
+                } 
             }
             streamReader.Close();
             return usersToAdd;
         }
+
 
         /// <summary>
         /// Upload to database each user of the list of users
@@ -315,21 +320,17 @@ namespace NumAndDrive.Services
         /// <returns></returns>
         public async Task UploadUsers(UploadUsersViewModel viewModel, List<User> users)
         {
-            string webRootPath = _webHostEnvironment.WebRootPath;
-            string path = Path.Combine(webRootPath, "users_not_created.csv");
-            StreamWriter streamWriter = new StreamWriter(path);
             foreach (User user in users)
             {
                 string password = PasswordGenerator();
                 var result = await _userManager.CreateAsync(user, password);
                 if (!result.Succeeded)
                 {
-                    streamWriter.WriteLine(user.Email);
+                    _streamWriter.WriteLine(user.Email);
                     viewModel.NumberUsersNotValidated++;
                 }
                 await _userManager.AddToRoleAsync(user, "User");
             }
-            streamWriter.Close();
             _db?.SaveChanges();
         }
 
