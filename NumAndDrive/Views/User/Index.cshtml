@@ -68,11 +68,14 @@
                                             <div class="col-9">
                                                 <p class="m-0 fs-5 fw-light">@journey.AddressDeparting.City > @journey.AddressIncoming.City</p>
                                                 <p class="m-0 fs-5 fw-light">@journey.DepartureDate - @journey.DepartureHour</p>
+                                                <p>@journey.JourneyId</p>
                                             </div>
                                             <div class="col-3">
-                                                <p class="m-0 fs-1 fw-light text-custom-color-orange">></p>
+                                                <input type="hidden" asp-for="JourneyId" value="@journey.JourneyId" />
+                                                <a asp-controller="journey" asp-action="Edit" asp-route-JourneyId="@journey.JourneyId"><img src="../img/icon-edit.png" alt="Modifier" height="30" /></a>
                                             </div>
                                         </div>
+
                                     }
                                 }
                             </div>

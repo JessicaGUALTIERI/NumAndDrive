@@ -10,6 +10,7 @@ using NumAndDrive.Database;
 using NumAndDrive.Models;
 using NumAndDrive.Models.Repositories;
 using NumAndDrive.ViewModels;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,13 +20,11 @@ namespace NumAndDrive.Controllers
     [Authorize]
     public class JourneyController : Controller
     {
-        private readonly NumAndDriveDbContext Db;
         private readonly UserManager<User> UserManager;
         private readonly IJourneyService JourneyService;
 
-        public JourneyController(NumAndDriveDbContext db, IJourneyService journeyService, UserManager<User> userManager)
+        public JourneyController(IJourneyService journeyService, UserManager<User> userManager)
         {
-            Db = db;
             JourneyService = journeyService;
             UserManager = userManager;
         }
@@ -37,11 +36,12 @@ namespace NumAndDrive.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
+            var companies = await JourneyService.GetCompanies();
             JourneyCompanyViewModel journeyCompanyViewModel = new JourneyCompanyViewModel
             {
-                Company = Db.Companies,
+                Company = companies
             };
 
             return View(journeyCompanyViewModel);
@@ -58,88 +58,97 @@ namespace NumAndDrive.Controllers
                 PostalCode = postalCode,
                 City = city,
             };
+            await JourneyService.AddAddressAsync(address);
 
-            var result = Db.Addresses.AddAsync(address);
-            Db.SaveChanges();
-
-            if (result.IsCompletedSuccessfully)
+            var lastAddressId = JourneyService.GetLastAddress();
+            Journey journey = new Journey
             {
 
-                var lastAddress = Db.Addresses.OrderByDescending(x => x.AddressId).FirstOrDefault();
-                int lastAddressId = lastAddress.AddressId;
-
-                Journey journey = new Journey
-                {
-
-                    DepartureDate = journeyCompanyViewModel.Journey.DepartureDate,
-                    DepartureHour = journeyCompanyViewModel.Journey.DepartureHour,
-                    AvailableSpots = journeyCompanyViewModel.Journey.AvailableSpots,
-                    UserId = UserManager.GetUserId(User),
-                    AddressDepartingId = lastAddressId,
-                    AddressIncomingId = journeyCompanyViewModel.Journey.AddressIncomingId,
-                    CreationDate = DateOnly.FromDateTime(DateTime.UtcNow),
-                };
-
-                Db.Journeys.Add(journey);
-                Db.SaveChanges();
-            }
+                DepartureDate = journeyCompanyViewModel.Journey.DepartureDate,
+                DepartureHour = journeyCompanyViewModel.Journey.DepartureHour,
+                AvailableSpots = journeyCompanyViewModel.Journey.AvailableSpots,
+                UserId = UserManager.GetUserId(User),
+                AddressDepartingId = lastAddressId,
+                AddressIncomingId = journeyCompanyViewModel.Journey.AddressIncomingId,
+                CreationDate = DateOnly.FromDateTime(DateTime.UtcNow),
+            };
+            await JourneyService.AddJourneyAsync(journey);
+            
 
             return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> GetJourneys()
         {
-            var journeys = await Db.Journeys.
-                Include(j => j.User)
-                .Include(j => j.AddressDeparting)
-                .Include(j => j.AddressIncoming)
-                .ThenInclude(j => j.Company)
-                .ToListAsync();
-                
+            var journeys = await JourneyService.GetJourneysAsync();
             return View(journeys);
         }
 
         [HttpPost]
-        public IActionResult BookJourney(int journeyId)
+        public async Task<IActionResult> BookJourney(int journeyId)
         {
-            Journey journey = Db.Journeys.Find(journeyId);
-
+            var journey = JourneyService.GetJourneyById(journeyId);
             Journeys_Users journeys_Users = new Journeys_Users()
             {
                 UserId = UserManager.GetUserId(User),
                 JourneyId = journeyId
             };
-
-            journey.AvailableSpots--;
-            Db.Journeys_Users.Add(journeys_Users);
-            Db.SaveChanges();
+            JourneyService.ReduceAvailableSpotBy1(journey);
+            await JourneyService.AddJourneyUsersAsync(journeys_Users);
             return RedirectToAction(nameof(Index));
         }
 
 
         public IActionResult JourneyDetails(int journeyId)
         {
-            var journey = Db.Journeys.
-                Where(x => x.JourneyId == journeyId)
-                .Include(j => j.User)
-                .Include(j => j.AddressDeparting)
-                .Include(j => j.AddressIncoming)
-                .ThenInclude(j => j.Company)
-                .Select(j => new JourneyCompanyViewModel
-                {
-                    JourneyId = j.JourneyId,
-                    UserFirstName = j.User.FirstName,
-                    UserLastName = j.User.LastName,
-                    AddressDeparting = j.AddressDeparting.City,
-                    AddressIncoming = j.AddressIncoming.Company.Name,
-                    DepartureDate = j.DepartureDate,
-                    DepartureHour = j.DepartureHour,
-                    AvailableSpots = j.AvailableSpots,
-                })
-                .FirstOrDefault();
-
+            var journey = JourneyService.GetJourneyDetailsById(journeyId);
             return PartialView("_JourneyDetails", journey);
 
+        }
+
+        public IActionResult Edit(int JourneyId)
+        {
+            var journey = JourneyService.GetJourneyById(JourneyId);
+            Console.WriteLine(journey.JourneyId);
+            JourneyUpdateViewModel model = new JourneyUpdateViewModel
+            {
+                DepartureDate = journey.DepartureDate,
+                DepartureHour = journey.DepartureHour,
+                AvailableSpots = journey.AvailableSpots,
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int JourneyId, JourneyUpdateViewModel model)
+        {
+            string? userId = UserManager.GetUserId(User);
+            bool updateSuccess = await JourneyService.UpdateJourneyAsync(JourneyId, model, userId);
+
+            if (updateSuccess)
+            {
+                return RedirectToAction(nameof(Index)); 
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "You are not authorized to update this journey or the journey does not exist.";
+                return RedirectToAction(nameof(Error)); 
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int JourneyId)
+        {
+            var journey = JourneyService.GetJourneyById(JourneyId);
+            if (journey == null)
+            {
+                return NotFound();
+            }
+
+            JourneyService.DeleteJourney(JourneyId);
+
+            return RedirectToAction("Index");
         }
     }
 }
